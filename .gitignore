@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Kifreak.KiImageOrganizer/v16
+/Kifreak.KiImageOrganizer.Console/bin/Debug
+/packages
+/Kifreak.KiImageOrganizer.Console/obj/Debug
+/Kifreak.KiImageOrganizer.sln.DotSettings.user

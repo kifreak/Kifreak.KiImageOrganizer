@@ -14,6 +14,9 @@ namespace Kifreak.KiImageOrganizer.Console.Models
         public string display_name { get; set; }
         public Address address { get; set; }
         public List<string> boundingbox { get; set; }
+
+        public string AmenityName { get; set; }
+        public string AmenityType { get; set; }
         
     }
 }

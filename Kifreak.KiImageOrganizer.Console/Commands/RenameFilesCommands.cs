@@ -53,7 +53,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         public string CommandName => "RenameFiles";
 
         public string Description =>
-            $@"Rename files. Params Actions:  [{_actionService.ActionsToString()}]. Example RenameFiles C:\MyFolder DateTime Restaurant City";
+            $@"Rename files. Params Actions:  [{_actionService.ActionsToString()}]. Can make alternative in case your parameter doesn't exist (i.e. City|Village).  Not working in different types of parameters (like City|Hour). Example RenameFiles C:\MyFolder DateTime Restaurant City";
 
         public CommandFactory.ICommand MakeCommand(string[] arguments)
         {

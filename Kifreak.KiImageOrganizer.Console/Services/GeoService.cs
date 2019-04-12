@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Threading;
+using System.Xml;
+using System.Xml.Serialization;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Newtonsoft.Json;
 
@@ -41,7 +43,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             SaveToFile(coordinates,data);
             return data;
         }
-
+        //TODO: Include in JSON file all Call and not just the first one.
         private OSMData CallOSMData(Coordinates coordinates)
         {
             string url =
@@ -53,8 +55,32 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             string response = client.DownloadString(url);
             OSMData data = ToOSMData(response);
             Config.LastCallToOSM = DateTime.Now;
+            GetAmenityInfo(data);
             return data;
         }
+
+        private void GetAmenityInfo(OSMData data)
+        {
+            string url = $"https://api.openstreetmap.org/api/0.6/{data.osm_type}/{data.osm_id}";
+            var client = new WebClient();
+            client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; " +
+                                             "Windows NT 5.2; .NET CLR 1.0.3705;)");
+            WaitForNextAllowCallToOsm();
+            string response = client.DownloadString(url);
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(response);
+            var amenity = xml.DocumentElement.SelectSingleNode("//*[@k='amenity']");
+            if (amenity == null)
+            {
+                amenity=  xml.DocumentElement.SelectSingleNode("//*[@k='tourism']");
+            }
+            var amenityName = xml.DocumentElement.SelectSingleNode("//*[@k='name']");
+            data.AmenityType = amenity?.Attributes?["v"]?.Value;
+            data.AmenityName = amenityName?.Attributes?["v"]?.Value;
+            
+            Config.LastCallToOSM = DateTime.Now;
+        }
+
 
         private OSMData ToOSMData(string text)
         {

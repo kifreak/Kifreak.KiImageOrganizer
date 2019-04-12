@@ -9,7 +9,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
     {
         private readonly string _format;
         
-        public ByDate(SubFolders subFolders, MetadataService metadata, string format) : base(subFolders, metadata)
+        public ByDate(SubFolders subFolders, string format) : base(subFolders)
         {
             _format = format;
         }
@@ -20,7 +20,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
 
         private string GetSubFolderFromAction()
         {
-            string createdTime = _metadata.GetKey("Date/Time Original");
+            string createdTime = Metadata.GetKey("Date/Time Original");
             bool isParsed = DateTime.TryParseExact(createdTime, "yyyy:MM:dd HH:mm:ss",CultureInfo.CurrentCulture,DateTimeStyles.None,out DateTime dateTime);
             return dateTime.ToString(_format);
         }

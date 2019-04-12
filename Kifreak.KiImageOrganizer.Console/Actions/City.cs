@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
@@ -14,8 +15,8 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         private readonly string _type;
         private const string _noLocationString = "NoLocation";
 
-        public City(string type, SubFolders subFolders, MetadataService metadata) : base(
-            subFolders, metadata)
+        public City(string type, SubFolders subFolders) : base(
+            subFolders)
         {
             _type = type;
             _geoService = new GeoService(Directory.GetCurrentDirectory());
@@ -37,12 +38,17 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
 
         private string GetValue(OSMData osmData)
         {
-            var property = osmData.address.GetType().GetProperty(_type);
-            if (property == null) return "NoLocation";
+            PropertyInfo property = GetProperty(osmData);
+            if (property == null) return _noLocationString;
             object value = property.GetValue(osmData.address);
-            return value == null ? "NoLocation" : value.ToString();
+            return value == null ? _noLocationString : value.ToString();
         }
 
+        private PropertyInfo GetProperty(OSMData osmData)
+        {
+            var osmType = osmData.address.GetType();
+            return osmType.GetProperty(osmType.GetProperty(_type)?.GetValue(osmData.address) != null || string.IsNullOrEmpty(Alternative)? _type : Alternative?.ToLower());
+        }
         private Coordinates GetCoordinates()
         {
             return new Coordinates(
@@ -53,7 +59,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
 
         private string GetCoordinateInfo(string key)
         {
-            string coordinate = _metadata.GetKey(key);
+            string coordinate = Metadata.GetKey(key);
             if (string.IsNullOrEmpty(coordinate))
             {
                 return string.Empty;

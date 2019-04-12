@@ -50,7 +50,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         #region CommandFactory
         public string CommandName => "OrganizerImages";
-        public string Description => $@"Organize Images. Params Actions: [{_actionService.ActionsToString()}]. Example: c:\MyFolder City Date";
+        public string Description => $@"Organize Images. Params Actions: [{_actionService.ActionsToString()}]. Can make alternative in case your parameter doesn't exist (i.e. City|Village). Not working in different types of parameters (like City|Hour). Example: c:\MyFolder City Date";
 
         public ICommand MakeCommand(string[] arguments)
         {

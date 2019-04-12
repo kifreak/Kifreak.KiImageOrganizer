@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
-using MetaDataFileInfo.Classes;
+using Kifreak.KiImageOrganizer.Console.Services;
+using MetadataExtractor;
+
 
 namespace Kifreak.KiImageOrganizer.Console.Actions
 {
     public class SubFolderDecorator : SubFolders
     {
         protected SubFolders _subFolders;
-        protected readonly List<KeyValuePair<string, Property>> _metadata;
+        protected readonly MetadataService _metadata;
 
-        public SubFolderDecorator(SubFolders subFolders, List<KeyValuePair<string, Property>> metadata)
+        public SubFolderDecorator(SubFolders subFolders, MetadataService metadata)
         {
             _subFolders = subFolders;
             _metadata = metadata;

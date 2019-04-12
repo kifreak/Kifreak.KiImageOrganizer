@@ -27,5 +27,9 @@
             return !string.IsNullOrEmpty(Latitude) && !string.IsNullOrEmpty(Longitude);
         }
 
+        public override string ToString()
+        {
+            return Latitude + "-" + Longitude;
+        }
     }
 }

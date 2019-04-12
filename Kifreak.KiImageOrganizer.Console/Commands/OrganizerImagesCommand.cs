@@ -5,7 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
+using Kifreak.KiImageOrganizer.Console.Services;
+using MetadataExtractor;
 using MetaDataFileInfo.Classes;
+using Directory = MetadataExtractor.Directory;
 
 namespace Kifreak.KiImageOrganizer.Console.Commands
 {
@@ -77,9 +80,9 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         #endregion
         
         #region Private Methods
-        private List<KeyValuePair<string, Property>> _metadataInfo;
+        private MetadataService _metadataService;
         private SubFolders _subFolder;
-        private readonly Dictionary<string, Func<SubFolders, List<KeyValuePair<string, Property>>,SubFolders>> _actions = new Dictionary<string, Func<SubFolders, List<KeyValuePair<string, Property>>, SubFolders>>
+        private readonly Dictionary<string, Func<SubFolders, MetadataService, SubFolders>> _actions = new Dictionary<string, Func<SubFolders, MetadataService, SubFolders>>
         {
             {"City" ,(folders, metadata) => new City("city",folders, metadata)},
             {"Road" ,(folders, metadata) => new City("road",folders, metadata)},
@@ -111,16 +114,17 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         private void OrganizeFile(string file)
         {
             GetMetadataInfo(file);
+           
             foreach (string label in ByLabels)
             {
-                _subFolder = _actions[label].Invoke(_subFolder,_metadataInfo);
+                _subFolder = _actions[label].Invoke(_subFolder,_metadataService);
             }
 
         }
         private void GetMetadataInfo(string file)
         {
-            MetaFileInfo metaData = new MetaFileInfo(file);
-            _metadataInfo = metaData.Where(t => t.Value?.Value != null).ToList();
+           _metadataService = new MetadataService(file);
+
         }
 
         private void CreateFolderIfIsNecessary(string newFolder)
@@ -138,4 +142,5 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         }
         #endregion
     }
+   
 }

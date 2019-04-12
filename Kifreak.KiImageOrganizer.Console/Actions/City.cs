@@ -1,24 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
-using MetaDataFileInfo.Classes;
+
 
 namespace Kifreak.KiImageOrganizer.Console.Actions
 {
+    //TODO: Create a way to call once time to the OSM and not repeat the query.
     public class City : SubFolderDecorator
     {
         private readonly GeoService _geoService;
         private readonly string _type;
         private const string _noLocationString = "NoLocation";
 
-        public City(string type, SubFolders subFolders, List<KeyValuePair<string, Property>> metadata) : base(
+        public City(string type, SubFolders subFolders, MetadataService metadata) : base(
             subFolders, metadata)
         {
             _type = type;
-            _geoService = new GeoService();
+            _geoService = new GeoService(Directory.GetCurrentDirectory());
         }
 
         public override string GetSubFolder()
@@ -29,12 +32,10 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         private string GetSubFolderFromAction()
         {
             Coordinates coordinates = GetCoordinates();
-            if (coordinates==null || !coordinates.IsValid()) return _noLocationString;
+            if (coordinates == null || !coordinates.IsValid()) return _noLocationString;
 
-            OSMData osmData = _geoService.CallOpenStreetMap(coordinates);
+            OSMData osmData = _geoService.GetOSMData(coordinates);
             return GetValue(osmData);
-
-
         }
 
         private string GetValue(OSMData osmData)
@@ -48,18 +49,33 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         private Coordinates GetCoordinates()
         {
             return new Coordinates(
-                GetCoordinateInfo("latitude"),
-                GetCoordinateInfo("longitude")
+                GetCoordinateInfo("GPS Latitude"),
+                GetCoordinateInfo("GPS Longitude")
             );
         }
 
         private string GetCoordinateInfo(string key)
         {
-            KeyValuePair<string, Property> coordinate =
-                _metadata.FirstOrDefault(t => t.Key.ToLower() == key);
-            List<double> latDoublesList = ((IEnumerable<double>)coordinate.Value.Value).ToList();
-            return _geoService.ConvertCoordinates(latDoublesList[0], latDoublesList[1], latDoublesList[2])
-                .ToString(CultureInfo.InvariantCulture);
+            string coordinate = _metadata.GetKey(key);
+            if (string.IsNullOrEmpty(coordinate))
+            {
+                return string.Empty;
+            }
+
+            int degreeSymbol = coordinate.IndexOf("° ", StringComparison.Ordinal);
+            int minutesSymbol = coordinate.IndexOf("' ", StringComparison.Ordinal);
+            int secondsSymbol = coordinate.IndexOf("\"", StringComparison.Ordinal);
+            if (degreeSymbol < 0 || minutesSymbol < 0 || secondsSymbol < 0)
+            {
+                return string.Empty;
+            }
+
+            double.TryParse(coordinate.Substring(0, degreeSymbol), out double degrees);
+            double.TryParse(coordinate.Substring(degreeSymbol + 2, minutesSymbol - (degreeSymbol + 2)),
+                out double minutes);
+            double.TryParse(coordinate.Substring(minutesSymbol + 2, secondsSymbol - (minutesSymbol + 2)),
+                out double seconds);
+            return _geoService.ConvertCoordinates(degrees, minutes, seconds).ToString(CultureInfo.InvariantCulture);
         }
     }
 }

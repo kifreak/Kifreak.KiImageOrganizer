@@ -13,6 +13,7 @@ namespace Kifreak.KiImageOrganizer.Console
         static async Task Main(string[] args)
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-UK");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-UK");
             var availableCommands = GetAvalaibleCommands();
             if (args.Length == 0)
             {
@@ -45,6 +46,7 @@ namespace Kifreak.KiImageOrganizer.Console
             System.Console.WriteLine("Commands:");
             foreach (var command in availableCommands)
                 ConsoleHelper.Description($"{command.CommandName}: {command.Description}");
+            System.Console.ReadKey();
         }
     }
 }

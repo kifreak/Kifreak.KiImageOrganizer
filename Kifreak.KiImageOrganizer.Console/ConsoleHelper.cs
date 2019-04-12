@@ -11,11 +11,20 @@ namespace Kifreak.KiImageOrganizer.Console
             System.Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void Description(string message)
+        public static void Info(string message)
         {
             System.Console.ForegroundColor = ConsoleColor.DarkYellow;
             System.Console.WriteLine(message);
             System.Console.ForegroundColor = ConsoleColor.White;
         }
+
+        public static void EndProgram()
+        {
+            System.Console.ForegroundColor = ConsoleColor.DarkGreen;
+            System.Console.WriteLine("Program finish. Press any key to close this window.");
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.ReadKey();
+        }
     }
+
 }

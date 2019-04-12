@@ -12,9 +12,9 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         {
             _format = format;
         }
-        public override string GetSubFolder()
+        public override string GetSubFolder(IFormatter formatter)
         {
-            return $@"{_subFolders.GetSubFolder()}\{GetSubFolderFromAction()}";
+            return formatter.Format(_subFolders.GetSubFolder(formatter), GetSubFolderFromAction());
         }
 
         private string GetSubFolderFromAction()

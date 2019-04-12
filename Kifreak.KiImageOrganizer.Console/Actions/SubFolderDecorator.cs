@@ -13,9 +13,9 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             _subFolders = subFolders;
             _metadata = metadata;
         }
-        public override string GetSubFolder()
+        public override string GetSubFolder(IFormatter formatter)
         {
-            return _subFolders.GetSubFolder();
+            return _subFolders.GetSubFolder(formatter);
         }
     }
 }

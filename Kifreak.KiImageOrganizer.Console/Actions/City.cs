@@ -20,9 +20,9 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             _geoService = new GeoService(Directory.GetCurrentDirectory());
         }
 
-        public override string GetSubFolder()
+        public override string GetSubFolder(IFormatter formatter)
         {
-            return $@"{_subFolders.GetSubFolder()}\{GetSubFolderFromAction()}";
+            return formatter.Format(_subFolders.GetSubFolder(formatter), GetSubFolderFromAction());
         }
 
         private string GetSubFolderFromAction()

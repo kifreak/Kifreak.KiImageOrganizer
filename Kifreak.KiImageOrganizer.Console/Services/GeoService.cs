@@ -17,7 +17,12 @@ namespace Kifreak.KiImageOrganizer.Console.Services
         }
         public double ConvertCoordinates(double degrees, double minutes, double seconds)
         {
-            return degrees + (minutes / 60) + (seconds / 3600);
+            int multiplier = 1;
+            if (degrees < 0)
+            {
+                multiplier = -1;
+            }
+            return (multiplier) * (Math.Abs(degrees) + (minutes / 60) + (seconds / 3600));
         }
         public OSMData GetOSMData(Coordinates coordinates)
         {

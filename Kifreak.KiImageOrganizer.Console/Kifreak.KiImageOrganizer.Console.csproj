@@ -61,8 +61,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CommandsHelper.cs" />
+    <Compile Include="Services\ActionService.cs" />
     <Compile Include="Actions\ByDate.cs" />
     <Compile Include="Actions\City.cs" />
+    <Compile Include="Formatters\FileFormatters.cs" />
+    <Compile Include="Formatters\FolderFormatters.cs" />
+    <Compile Include="Formatters\IFormatter.cs" />
     <Compile Include="Actions\MainFolder.cs" />
     <Compile Include="Actions\SubFolderDecorator.cs" />
     <Compile Include="Actions\SubFolders.cs" />
@@ -71,6 +76,7 @@
     <Compile Include="CommandFactory\ICommandFactory.cs" />
     <Compile Include="Commands\NotFoundCommand.cs" />
     <Compile Include="Commands\OrganizerImagesCommand.cs" />
+    <Compile Include="Commands\RenameFilesCommands.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConsoleHelper.cs" />
     <Compile Include="Models\Address.cs" />
@@ -88,5 +94,6 @@
   <ItemGroup>
     <Content Include="Readme.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

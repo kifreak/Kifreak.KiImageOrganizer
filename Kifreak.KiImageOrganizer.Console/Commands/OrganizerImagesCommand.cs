@@ -1,19 +1,27 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
+using Kifreak.KiImageOrganizer.Console.Helpers;
 using Kifreak.KiImageOrganizer.Console.Services;
 
 namespace Kifreak.KiImageOrganizer.Console.Commands
 {
     public class OrganizerImagesCommand : ICommand, ICommandFactory
     {
+        public OrganizerImagesCommand()
+        {
+            _actionService = new ActionService();
+        }
         public string Directory { get; set; }
         public string[] ByLabels { get; set; }
-       
+
+        private readonly ActionService _actionService;
+
         #region ICommand
         public Task Execute()
         {
@@ -26,15 +34,15 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
             if (ByLabels == null || ByLabels.Length == 0 || !System.IO.Directory.Exists(Directory))
             {
                 ConsoleHelper.Error("Need parameter to execute this action and have a valid Directory.");
-                System.Console.WriteLine("Organizer Images Description: ");
-                ConsoleHelper.Description(Description);
+                System.Console.WriteLine("Organizer Images Info: ");
+                ConsoleHelper.Info(Description);
                 return false;
             }
 
-            if (ByLabels.Any(t => !_actions.ContainsKey(t)))
+            if (_actionService.HasAllAction(ByLabels))
             {
                 ConsoleHelper.Error("There are labels that are not accepted");
-                ConsoleHelper.Description(Description);
+                ConsoleHelper.Info(Description);
                 return false;
             }
 
@@ -45,7 +53,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         #region CommandFactory
         public string CommandName => "OrganizerImages";
-        public string Description => @"Organize Images. Params Actions. Example: c:\MyFolder City Date";
+        public string Description => $@"Organize Images. Params Actions: [{_actionService.ActionsToString()}]. Example: c:\MyFolder City Date";
 
         public ICommand MakeCommand(string[] arguments)
         {
@@ -77,53 +85,24 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         #endregion
         
         #region Private Methods
-        private MetadataService _metadataService;
-        private SubFolders _subFolder;
-        private readonly Dictionary<string, Func<SubFolders, MetadataService, SubFolders>> _actions = new Dictionary<string, Func<SubFolders, MetadataService, SubFolders>>
-        {
-            {"City" ,(folders, metadata) => new City("city",folders, metadata)},
-            {"Road" ,(folders, metadata) => new City("road",folders, metadata)},
-            {"Country" ,(folders, metadata) => new City("country",folders, metadata)},
-            {"County" ,(folders, metadata) => new City("county",folders, metadata)},
-            {"DateTime", (folders,metadata)=> new ByDate(folders, metadata,"yyyy-MM-dd")},
-            {"YearMonth", (folders,metadata) => new ByDate(folders,metadata,"yyyy-MM") }
-        };
         private void Run()
         {
-            var allFiles = System.IO.Directory.GetFiles(Directory);
-            foreach (string file in allFiles)
+            CommandsHelper.ForeachFiles(Directory, (file) =>
             {
                 string newFolder = GetFileFolder(file);
                 CreateFolderIfIsNecessary(newFolder);
-                MoveFileToNewPath(file,newFolder);
-            }
-           
+                MoveFileToNewPath(file, newFolder);
+            });
         }
         private string GetFileFolder(string file)
         {
-            _subFolder = new MainFolder($@"{Directory}\Organized");
-            OrganizeFile(file);
-            string newFolder = _subFolder.GetSubFolder();
-            System.Console.WriteLine("File: " + file + " --> " + newFolder);
+            string newFolder =  _actionService.GetSubFolder(file,ByLabels, 
+                new MainFolder($@"{Directory}\Organized"),
+                new FolderFormatters());
+            ConsoleHelper.Info($"{file} copy to {newFolder}");
             return newFolder;
         }
         
-        private void OrganizeFile(string file)
-        {
-            GetMetadataInfo(file);
-           
-            foreach (string label in ByLabels)
-            {
-                _subFolder = _actions[label].Invoke(_subFolder,_metadataService);
-            }
-
-        }
-        private void GetMetadataInfo(string file)
-        {
-           _metadataService = new MetadataService(file);
-
-        }
-
         private void CreateFolderIfIsNecessary(string newFolder)
         {
             System.IO.Directory.CreateDirectory(newFolder);
@@ -131,11 +110,15 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         private void MoveFileToNewPath(string fileName,string newFolder)
         {
-            string newFile = newFolder + "\\" + Path.GetFileName(fileName);
+            string newFile = $@"{newFolder}\{Path.GetFileName(fileName)}";
             if (!File.Exists(newFile))
             {
                 File.Copy(fileName,newFile);
+            } else 
+            {
+                ConsoleHelper.Error($"{newFolder} already exist");
             }
+
         }
         #endregion
     }

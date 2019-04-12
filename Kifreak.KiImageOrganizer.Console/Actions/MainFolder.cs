@@ -1,4 +1,6 @@
-﻿namespace Kifreak.KiImageOrganizer.Console.Actions
+﻿using System.Runtime.Serialization;
+
+namespace Kifreak.KiImageOrganizer.Console.Actions
 {
     public class MainFolder : SubFolders
     {
@@ -10,9 +12,9 @@
             _path = path;
         }
 
-        public override string GetSubFolder()
+        public override string GetSubFolder(IFormatter formatter)
         {
-            return _path;
+            return formatter.Format(_path,string.Empty);
         }
     }
 }

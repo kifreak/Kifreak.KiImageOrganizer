@@ -85,7 +85,8 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
             {"Road" ,(folders, metadata) => new City("road",folders, metadata)},
             {"Country" ,(folders, metadata) => new City("country",folders, metadata)},
             {"County" ,(folders, metadata) => new City("county",folders, metadata)},
-            {"DateTime", (folders,metadata)=> new ByDate(folders, metadata)}
+            {"DateTime", (folders,metadata)=> new ByDate(folders, metadata,"yyyy-MM-dd")},
+            {"YearMonth", (folders,metadata) => new ByDate(folders,metadata,"yyyy-MM") }
         };
         private void Run()
         {

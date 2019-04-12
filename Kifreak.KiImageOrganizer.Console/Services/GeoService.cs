@@ -13,10 +13,14 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             return degrees + (minutes / 60) + (seconds / 3600);
         }
         
-        public OSMData CallOpenStreetMap(string[] coordinates)
+        public OSMData CallOpenStreetMap(Coordinates coordinates)
         {
+            if (!coordinates.IsValid())
+            {
+                return new OSMData();
+            }
             string url =
-                $"https://nominatim.openstreetmap.org/reverse?format=json&lat={coordinates[0]}&lon={coordinates[1]}";
+                $"https://nominatim.openstreetmap.org/reverse?format=json&lat={coordinates.Latitude}&lon={coordinates.Longitude}";
             var client = new WebClient();
             client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; " +
                                              "Windows NT 5.2; .NET CLR 1.0.3705;)");

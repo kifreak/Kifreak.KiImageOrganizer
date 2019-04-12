@@ -12,13 +12,12 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
     {
         private readonly GeoService _geoService;
         private readonly string _type;
-
+        private const string _noLocationString = "NoLocation";
 
         public City(string type, SubFolders subFolders, List<KeyValuePair<string, Property>> metadata) : base(
             subFolders, metadata)
         {
             _type = type;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-UK");
             _geoService = new GeoService();
         }
 
@@ -27,43 +26,40 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             return $@"{_subFolders.GetSubFolder()}\{GetSubFolderFromAction()}";
         }
 
-        //TODO: Many IFS - Rewrite.
         private string GetSubFolderFromAction()
         {
-            string[] coordinates = GetCoordinates();
-            if (coordinates.Length == 0) return "NoLocation";
+            Coordinates coordinates = GetCoordinates();
+            if (coordinates==null || !coordinates.IsValid()) return _noLocationString;
 
             OSMData osmData = _geoService.CallOpenStreetMap(coordinates);
-            string propertyToSearch = _type;
-            if (osmData == null || osmData.address.GetType().GetProperty(propertyToSearch) == null) return "NoLocation";
+            return GetValue(osmData);
 
-            object value = osmData.address.GetType().GetProperty(propertyToSearch)?.GetValue(osmData.address);
-            if (value == null)
-            {
-                value = osmData.address.GetType().GetProperty(propertyToSearch)?.GetValue(osmData.address);
-                if (value == null) return "NoLocation";
-            }
 
-            return value.ToString();
         }
 
-        //TODO Same code por latitude and longitude: Rewrite.
-        private string[] GetCoordinates()
+        private string GetValue(OSMData osmData)
         {
-            KeyValuePair<string, Property> latitude =
-                _metadata.FirstOrDefault(t => t.Key.ToLower() == "latitude" || t.Key.ToLower() == "latitud");
-            KeyValuePair<string, Property> longitude =
-                _metadata.FirstOrDefault(t => t.Key.ToLower() == "longitude" || t.Key.ToLower() == "longitud");
-            if (latitude.Value == null || longitude.Value == null) return new string[0];
+            var property = osmData.address.GetType().GetProperty(_type);
+            if (property == null) return "NoLocation";
+            object value = property.GetValue(osmData.address);
+            return value == null ? "NoLocation" : value.ToString();
+        }
 
-            List<double> latDoublesList = ((IEnumerable<double>) latitude.Value.Value).ToList();
-            List<double> longDoublesList = ((IEnumerable<double>) longitude.Value.Value).ToList();
-            return new[]
-            {
-                _geoService.ConvertCoordinates(latDoublesList[0], latDoublesList[1], latDoublesList[2]).ToString(CultureInfo.InvariantCulture),
-                (-1 * _geoService.ConvertCoordinates(longDoublesList[0], longDoublesList[1], longDoublesList[2]))
-                .ToString(CultureInfo.InvariantCulture)
-            };
+        private Coordinates GetCoordinates()
+        {
+            return new Coordinates(
+                GetCoordinateInfo("latitude"),
+                GetCoordinateInfo("longitude")
+            );
+        }
+
+        private string GetCoordinateInfo(string key)
+        {
+            KeyValuePair<string, Property> coordinate =
+                _metadata.FirstOrDefault(t => t.Key.ToLower() == key);
+            List<double> latDoublesList = ((IEnumerable<double>)coordinate.Value.Value).ToList();
+            return _geoService.ConvertCoordinates(latDoublesList[0], latDoublesList[1], latDoublesList[2])
+                .ToString(CultureInfo.InvariantCulture);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
 using Kifreak.KiImageOrganizer.Console.Commands;
@@ -10,6 +12,7 @@ namespace Kifreak.KiImageOrganizer.Console
     {
         static async Task Main(string[] args)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-UK");
             var availableCommands = GetAvalaibleCommands();
             if (args.Length == 0)
             {

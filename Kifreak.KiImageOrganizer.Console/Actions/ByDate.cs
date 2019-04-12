@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Services;
 
 namespace Kifreak.KiImageOrganizer.Console.Actions

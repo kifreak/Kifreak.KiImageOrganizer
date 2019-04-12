@@ -1,4 +1,4 @@
-﻿namespace Kifreak.KiImageOrganizer.Console.Actions
+﻿namespace Kifreak.KiImageOrganizer.Console.Formatters
 {
     public class FileFormatters : IFormatter
     {

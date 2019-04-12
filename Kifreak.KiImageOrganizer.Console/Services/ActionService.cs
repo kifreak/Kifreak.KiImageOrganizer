@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using Kifreak.KiImageOrganizer.Console.Services;
+using Kifreak.KiImageOrganizer.Console.Actions;
+using Kifreak.KiImageOrganizer.Console.Formatters;
 
-namespace Kifreak.KiImageOrganizer.Console.Actions
+namespace Kifreak.KiImageOrganizer.Console.Services
 {
     public class ActionService
     {
@@ -17,9 +17,12 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             {"Village" ,(folders, metadata) => new City("village",folders, metadata)},
             {"Country" ,(folders, metadata) => new City("country",folders, metadata)},
             {"County" ,(folders, metadata) => new City("county",folders, metadata)},
-            {"DateTime", (folders,metadata)=> new ByDate(folders, metadata,"yyyy-MM-dd")},
+            {"Date", (folders,metadata)=> new ByDate(folders, metadata,"yyyy-MM-dd")},
+            {"DateTime", (folders,metadata)=> new ByDate(folders, metadata,"yyyy-MM-dd HH:mm:ss")},
+            {"Time", (folders,metadata)=> new ByDate(folders, metadata,"HH:mm:ss")},
             {"YearMonth", (folders,metadata) => new ByDate(folders,metadata,"yyyy-MM") }
         };
+
         public MetadataService MetadataInfo { get; private set; }
 
         public bool HasAllAction(string[] actions)

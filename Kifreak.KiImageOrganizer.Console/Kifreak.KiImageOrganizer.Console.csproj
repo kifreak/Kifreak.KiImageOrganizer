@@ -7,7 +7,7 @@
     <ProjectGuid>{3C221794-43BE-429C-B89F-42953FB268CF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Kifreak.KiImageOrganizer.Console</RootNamespace>
-    <AssemblyName>Kifreak.KiImageOrganizer.Console</AssemblyName>
+    <AssemblyName>KiOrganizer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\RemoveCacheCommand.cs" />
     <Compile Include="Helpers\CommandsHelper.cs" />
     <Compile Include="Services\ActionService.cs" />
     <Compile Include="Actions\ByDate.cs" />

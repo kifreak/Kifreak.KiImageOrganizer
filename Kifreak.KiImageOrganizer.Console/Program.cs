@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
-using Kifreak.KiImageOrganizer.Console.Commands;
 
 namespace Kifreak.KiImageOrganizer.Console
 {

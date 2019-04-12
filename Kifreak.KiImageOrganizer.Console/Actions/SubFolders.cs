@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization;
+﻿using Kifreak.KiImageOrganizer.Console.Formatters;
 
 namespace Kifreak.KiImageOrganizer.Console.Actions
 {

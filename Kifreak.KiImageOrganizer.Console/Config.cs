@@ -11,7 +11,12 @@ namespace Kifreak.KiImageOrganizer.Console
 
         public static IEnumerable<ICommandFactory> GetAvailableCommands()
         {
-            return new ICommandFactory[] { new OrganizerImagesCommand(), new RenameFilesCommands() };
+            return new ICommandFactory[]
+            {
+                new OrganizerImagesCommand(),
+                new RenameFilesCommands(),
+                new RemoveCacheCommand()
+            };
         }
     }
 }

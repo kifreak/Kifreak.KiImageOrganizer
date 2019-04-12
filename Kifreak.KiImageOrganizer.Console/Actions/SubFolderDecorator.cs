@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Kifreak.KiImageOrganizer.Console.Services;
-using MetadataExtractor;
+﻿using Kifreak.KiImageOrganizer.Console.Services;
 
 
 namespace Kifreak.KiImageOrganizer.Console.Actions

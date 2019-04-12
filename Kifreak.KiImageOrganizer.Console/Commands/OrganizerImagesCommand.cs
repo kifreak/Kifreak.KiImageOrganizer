@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
 using Kifreak.KiImageOrganizer.Console.Services;
-using MetadataExtractor;
-using MetaDataFileInfo.Classes;
-using Directory = MetadataExtractor.Directory;
 
 namespace Kifreak.KiImageOrganizer.Console.Commands
 {

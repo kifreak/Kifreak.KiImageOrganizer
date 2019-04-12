@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
 
 
 namespace Kifreak.KiImageOrganizer.Console.Actions
 {
-    //TODO: Create a way to call once time to the OSM and not repeat the query.
     public class City : SubFolderDecorator
     {
         private readonly GeoService _geoService;

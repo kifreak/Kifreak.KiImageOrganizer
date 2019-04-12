@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Newtonsoft.Json;

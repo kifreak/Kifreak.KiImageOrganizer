@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kifreak.KiImageOrganizer.Console", "Kifreak.KiImageOrganizer.Console\Kifreak.KiImageOrganizer.Console.csproj", "{3C221794-43BE-429C-B89F-42953FB268CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kifreak.KiImageOrganizer.Tests", "Kifreak.KiImageOrganizer.Tests\Kifreak.KiImageOrganizer.Tests.csproj", "{70F6CABA-72B9-460B-B506-722EABCB1132}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3C221794-43BE-429C-B89F-42953FB268CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C221794-43BE-429C-B89F-42953FB268CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C221794-43BE-429C-B89F-42953FB268CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70F6CABA-72B9-460B-B506-722EABCB1132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F6CABA-72B9-460B-B506-722EABCB1132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70F6CABA-72B9-460B-B506-722EABCB1132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70F6CABA-72B9-460B-B506-722EABCB1132}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

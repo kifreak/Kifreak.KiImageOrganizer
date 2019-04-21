@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.Formatters;
+using Kifreak.KiImageOrganizer.Console.Models;
 
 namespace Kifreak.KiImageOrganizer.Console.Services
 {
@@ -21,8 +22,8 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             {"AmenityType", (folders) => new City("AmenityType",folders) },
             {"AmenityName", (folders) => new City("AmenityName",folders) },
             {"Date", (folders)=> new ByDate(folders,"yyyy-MM-dd")},
-            {"DateTime", (folders)=> new ByDate(folders,"yyyy-MM-dd HH:mm:ss")},
-            {"Time", (folders)=> new ByDate(folders,"HH:mm:ss")},
+            {"DateTime", (folders)=> new ByDate(folders,"yyyy-MM-dd HH_mm_ss")},
+            {"Time", (folders)=> new ByDate(folders,"HH_mm_ss")},
             {"YearMonth", (folders) => new ByDate(folders,"yyyy-MM") }
         };
         //City|DateTime
@@ -44,16 +45,24 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             _subFolders = subFolder;
             foreach (string label in labels)
             {
-                string[] keys = label.Split('|');
-                string key = keys.First();
-                string alternative = keys.Skip(1).LastOrDefault();
-                _subFolders = ActionList[key].Invoke(_subFolders);
-               _subFolders.SetAlternative(alternative);
+                var keyAlternative = GetKeysFromLabel(label);
+                _subFolders = ActionList[keyAlternative.Key].Invoke(_subFolders);
+               _subFolders.SetAlternative(keyAlternative.Alternative);
                _subFolders.SetMetaData(MetadataInfo);
             }
 
             return _subFolders.GetSubFolder(formatter);
 
+        }
+
+        private KeysAlternatives GetKeysFromLabel(string label)
+        {
+            string[] keys = label.Split('|');
+            return new KeysAlternatives
+            {
+                Key = keys.First(),
+                Alternative = keys.Skip(1).LastOrDefault()
+            };
         }
 
         private void GetMetadataInfo(string file)

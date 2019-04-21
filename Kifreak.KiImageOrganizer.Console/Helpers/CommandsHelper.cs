@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Kifreak.KiImageOrganizer.Console.Helpers
 {
@@ -11,6 +12,12 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
             {
                action.Invoke(file);
             }
+        }
+
+        public static string RemoveAllNotAllowedCharacters(string path)
+        {
+            var regex = new Regex("<|“|\"|:|>|\\||\\\\|/|\\?|\\*");
+            return regex.Replace(path, "");
         }
     }
 }

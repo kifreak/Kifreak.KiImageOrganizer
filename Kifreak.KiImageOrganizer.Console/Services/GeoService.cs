@@ -26,7 +26,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             }
             return (multiplier) * (Math.Abs(degrees) + (minutes / 60) + (seconds / 3600));
         }
-        public OSMData GetOSMData(Coordinates coordinates)
+        public OSMData GetOsmData(Coordinates coordinates)
         {
             if (!coordinates.IsValid())
             {
@@ -39,12 +39,12 @@ namespace Kifreak.KiImageOrganizer.Console.Services
                 return data;
             }
 
-            data = CallOSMData(coordinates);
+            data = CallOsmData(coordinates);
             SaveToFile(coordinates,data);
             return data;
         }
         //TODO: Include in JSON file all Call and not just the first one.
-        private OSMData CallOSMData(Coordinates coordinates)
+        private OSMData CallOsmData(Coordinates coordinates)
         {
             string url =
                 $"https://nominatim.openstreetmap.org/reverse?format=json&lat={coordinates.Latitude}&lon={coordinates.Longitude}";
@@ -75,8 +75,12 @@ namespace Kifreak.KiImageOrganizer.Console.Services
                 amenity=  xml.DocumentElement.SelectSingleNode("//*[@k='tourism']");
             }
             var amenityName = xml.DocumentElement.SelectSingleNode("//*[@k='name']");
-            data.AmenityType = amenity?.Attributes?["v"]?.Value;
-            data.AmenityName = amenityName?.Attributes?["v"]?.Value;
+            if (data.address == null)
+            {
+                data.address = new Address();
+            }
+            data.address.AmenityType = amenity?.Attributes?["v"]?.Value;
+            data.address.AmenityName = amenityName?.Attributes?["v"]?.Value;
             
             Config.LastCallToOSM = DateTime.Now;
         }

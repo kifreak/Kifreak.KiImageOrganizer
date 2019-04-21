@@ -7,3 +7,7 @@
 /packages
 /Kifreak.KiImageOrganizer.Console/obj/Debug
 /Kifreak.KiImageOrganizer.sln.DotSettings.user
+/.vs
+/Kifreak.KiImageOrganizer.Console/obj/Release
+/Kifreak.KiImageOrganizer.Tests/bin/Debug
+/Kifreak.KiImageOrganizer.Tests/obj/Debug

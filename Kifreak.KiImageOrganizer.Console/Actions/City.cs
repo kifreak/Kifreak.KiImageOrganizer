@@ -32,7 +32,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             Coordinates coordinates = GetCoordinates();
             if (coordinates == null || !coordinates.IsValid()) return _noLocationString;
 
-            OSMData osmData = _geoService.GetOSMData(coordinates);
+            OSMData osmData = _geoService.GetOsmData(coordinates);
             return GetValue(osmData);
         }
 

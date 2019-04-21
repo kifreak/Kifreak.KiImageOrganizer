@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Commands\RemoveCacheCommand.cs" />
     <Compile Include="Helpers\CommandsHelper.cs" />
+    <Compile Include="Models\KeysAlternatives.cs" />
     <Compile Include="Services\ActionService.cs" />
     <Compile Include="Actions\ByDate.cs" />
     <Compile Include="Actions\City.cs" />

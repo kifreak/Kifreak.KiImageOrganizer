@@ -14,5 +14,7 @@ namespace Kifreak.KiImageOrganizer.Console.Models
         public string postcode { get; set; }
         public string country { get; set; }
         public string country_code { get; set; }
+        public string AmenityName { get; set; }
+        public string AmenityType { get; set; }
     }
 }

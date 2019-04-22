@@ -62,7 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionsTest.cs" />
     <Compile Include="CommandsHelperTest.cs" />
     <Compile Include="FormatterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

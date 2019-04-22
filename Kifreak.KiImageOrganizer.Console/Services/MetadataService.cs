@@ -5,7 +5,7 @@ using MetadataExtractor;
 
 namespace Kifreak.KiImageOrganizer.Console.Services
 {
-    public class MetadataService
+    public class MetadataService: IMetadataService
     {
         private readonly string _path;
         private readonly List<Directory> _metadataInfo;

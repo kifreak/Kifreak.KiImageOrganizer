@@ -4,7 +4,7 @@
     {
         public string Format(string key, string value)
         {
-            return string.IsNullOrEmpty(value) ? key : $"{key}_{value}";
+            return string.IsNullOrEmpty(value) ? key??string.Empty : $"{key}_{value}";
         }
     }
 }

@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandFactory\ParameterParser.cs" />
     <Compile Include="Commands\RemoveCacheCommand.cs" />
     <Compile Include="Helpers\CommandsHelper.cs" />
     <Compile Include="Models\KeysAlternatives.cs" />

@@ -57,29 +57,17 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         public CommandFactory.ICommand MakeCommand(string[] arguments)
         {
-            if (arguments.Length - 2 <= 0)
+            ParameterParser parser = new ParameterParser();
+            string[] parameters = parser.GetParameters(arguments, 2, 2);
+            if (parameters == null)
             {
                 return new RenameFilesCommands();
             }
 
-            string[] toLabels = new string[arguments.Length - 2];
-            var iteration = 0;
-            for (var i = 2; i < arguments.Length; i++)
-            {
-                toLabels[iteration] = arguments[i];
-                iteration++;
-            }
-
-            var fileName = string.Empty;
-            if (arguments.Length > 1)
-            {
-                fileName = arguments[1];
-            }
-
             return new RenameFilesCommands
             {
-                Directory = fileName,
-                ByLabels = toLabels
+                Directory = arguments[1],
+                ByLabels = parameters
             };
         }
 

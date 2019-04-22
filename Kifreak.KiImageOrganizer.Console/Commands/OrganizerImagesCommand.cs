@@ -54,70 +54,59 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         public ICommand MakeCommand(string[] arguments)
         {
-            if (arguments.Length - 2 <= 0)
+            ParameterParser parser = new ParameterParser();
+            string[] parameters = parser.GetParameters(arguments, 2, 2);
+            if (parameters == null)
             {
                 return new OrganizerImagesCommand();
-
-            }
-            string[] toLabels = new string[arguments.Length - 2];
-            var iteration = 0;
-            for (var i = 2; i < arguments.Length; i++)
-            {
-                toLabels[iteration] = arguments[i];
-                iteration++;
-            }
-
-            var fileName = string.Empty;
-            if (arguments.Length > 1)
-            {
-                fileName = arguments[1];
             }
 
             return new OrganizerImagesCommand
             {
-                Directory = fileName,
-                ByLabels = toLabels
+                Directory = arguments[1],
+                ByLabels = parameters
             };
         }
-        #endregion
-        
-        #region Private Methods
-        private void Run()
-        {
-            CommandsHelper.ForeachFiles(Directory, (file) =>
-            {
-                string newFolder = GetFileFolder(file);
-                CreateFolderIfIsNecessary(newFolder);
-                MoveFileToNewPath(file, newFolder);
-            });
-        }
-        private string GetFileFolder(string file)
-        {
-            string newFolder =  _actionService.GetSubFolder(file,ByLabels, 
-                new MainFolder($@"{Directory}\Organized"),
-                new FolderFormatters());
-            ConsoleHelper.Info($"{file} copy to {newFolder}");
-            return newFolder;
-        }
-        
-        private void CreateFolderIfIsNecessary(string newFolder)
-        {
-            System.IO.Directory.CreateDirectory(newFolder);
-        }
 
-        private void MoveFileToNewPath(string fileName,string newFolder)
-        {
-            string newFile = $@"{newFolder}\{Path.GetFileName(fileName)}";
-            if (!File.Exists(newFile))
+        #endregion
+
+            #region Private Methods
+            private void Run()
             {
-                File.Copy(fileName,newFile);
-            } else 
+                CommandsHelper.ForeachFiles(Directory, (file) =>
+                {
+                    string newFolder = GetFileFolder(file);
+                    CreateFolderIfIsNecessary(newFolder);
+                    MoveFileToNewPath(file, newFolder);
+                });
+            }
+            private string GetFileFolder(string file)
             {
-                ConsoleHelper.Error($"{newFolder} already exist");
+                string newFolder =  _actionService.GetSubFolder(file,ByLabels, 
+                    new MainFolder($@"{Directory}\Organized"),
+                    new FolderFormatters());
+                ConsoleHelper.Info($"{file} copy to {newFolder}");
+                return newFolder;
+            }
+        
+            private void CreateFolderIfIsNecessary(string newFolder)
+            {
+                System.IO.Directory.CreateDirectory(newFolder);
             }
 
-        }
-        #endregion
+            private void MoveFileToNewPath(string fileName,string newFolder)
+            {
+                string newFile = $@"{newFolder}\{Path.GetFileName(fileName)}";
+                if (!File.Exists(newFile))
+                {
+                    File.Copy(fileName,newFile);
+                } else 
+                {
+                    ConsoleHelper.Error($"{newFolder} already exist");
+                }
+
+            }
+            #endregion
     }
    
 }

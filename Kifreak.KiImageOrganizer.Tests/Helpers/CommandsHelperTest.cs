@@ -1,8 +1,7 @@
-﻿using System;
-using Kifreak.KiImageOrganizer.Console.Helpers;
+﻿using Kifreak.KiImageOrganizer.Console.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Kifreak.KiImageOrganizer.Tests
+namespace Kifreak.KiImageOrganizer.Tests.Helpers
 {
     [TestClass]
     public class CommandsHelperTest

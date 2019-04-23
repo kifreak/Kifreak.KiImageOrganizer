@@ -14,7 +14,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         {
             _subFolders = subFolders;
         }
-
+        
         public override Task<string> GetSubFolder(IFormatter formatter)
         {
             return _subFolders.GetSubFolder(formatter);

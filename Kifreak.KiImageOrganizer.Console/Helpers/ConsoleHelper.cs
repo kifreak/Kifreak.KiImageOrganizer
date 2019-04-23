@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kifreak.KiImageOrganizer.Console
+namespace Kifreak.KiImageOrganizer.Console.Helpers
 {
     public static class ConsoleHelper
     {

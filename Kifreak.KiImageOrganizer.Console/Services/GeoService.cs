@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Newtonsoft.Json;
 
@@ -34,7 +35,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
         {
             if (!coordinates.IsValid())
             {
-                return new OSMData();
+                return Config.Get<OSMData>();
             }
 
             OSMData data = ReadFromFile(coordinates);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Kifreak.KiImageOrganizer.Console.Commands;
+using Kifreak.KiImageOrganizer.Console.Configuration;
 
 namespace Kifreak.KiImageOrganizer.Console.CommandFactory
 {
@@ -19,7 +20,9 @@ namespace Kifreak.KiImageOrganizer.Console.CommandFactory
             var command = FindRequestCommand(args[0]);
             if (command == null)
             {
-                return new NotFoundCommand { Name = args[0] };
+                var notFoundCommand = Config.Get<NotFoundCommand>();
+                notFoundCommand.Name = args[0];
+                return notFoundCommand;
             }
 
             return command.MakeCommand(args);

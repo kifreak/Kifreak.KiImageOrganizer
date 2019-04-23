@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
+using Kifreak.KiImageOrganizer.Console.Helpers;
 
 namespace Kifreak.KiImageOrganizer.Console.Commands
 {

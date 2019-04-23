@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
+using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Helpers;
 using Kifreak.KiImageOrganizer.Console.Services;
@@ -10,14 +11,17 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 {
     public class OrganizerImagesCommand : ICommand, ICommandFactory
     {
-        public OrganizerImagesCommand()
+
+        public OrganizerImagesCommand(ActionService actionService, ParameterParser parameterParser)
         {
-            _actionService = new ActionService();
+            _actionService = actionService;
+            _parameterParser = parameterParser;
         }
         public string Directory { get; set; }
         public string[] ByLabels { get; set; }
 
         private readonly ActionService _actionService;
+        private readonly ParameterParser _parameterParser;
 
         #region ICommand
         public async Task Execute()
@@ -53,18 +57,16 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         public ICommand MakeCommand(string[] arguments)
         {
-            ParameterParser parser = new ParameterParser();
-            string[] parameters = parser.GetParameters(arguments, 2, 2);
+            string[] parameters = _parameterParser.GetParameters(arguments, 2, 2);
+            var organizerImageCommand = Config.Get<OrganizerImagesCommand>();
             if (parameters == null)
             {
-                return new OrganizerImagesCommand();
+                return organizerImageCommand;
             }
 
-            return new OrganizerImagesCommand
-            {
-                Directory = arguments[1],
-                ByLabels = parameters
-            };
+            organizerImageCommand.Directory = arguments[1];
+            organizerImageCommand.ByLabels = parameters;
+            return organizerImageCommand;
         }
 
         #endregion
@@ -81,9 +83,9 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
             }
             private async Task<string> GetFileFolder(string file)
             {
-                string newFolder = await _actionService.GetSubFolder(file,ByLabels, 
-                    new MainFolder($@"{Directory}\Organized"),
-                    new FolderFormatters());
+                string newFolder = await _actionService.GetSubFolder(file,ByLabels,
+                    Config.Get<MainFolder>("path", $@"{Directory}\Organized"),
+                    Config.Get<FolderFormatters>());
                 ConsoleHelper.Info($"{file} copy to {newFolder}");
                 return newFolder;
             }

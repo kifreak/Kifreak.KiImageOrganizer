@@ -1,7 +1,7 @@
 ﻿using Kifreak.KiImageOrganizer.Console.Formatters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Kifreak.KiImageOrganizer.Tests
+namespace Kifreak.KiImageOrganizer.Tests.Formatters
 {
     [TestClass]
     public class FormatterTest

@@ -1,18 +1,31 @@
 ﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using Kifreak.KiImageOrganizer.Console;
+using Kifreak.KiImageOrganizer.Console.Actions;
+using Kifreak.KiImageOrganizer.Console.Configuration;
+using Kifreak.KiImageOrganizer.Console.Formatters;
+using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Moq.Protected;
 
 namespace Kifreak.KiImageOrganizer.Tests.Services
 {
     [TestClass]
     public class ActionServiceUnitTest
     {
-
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            Config.Startup();
+        }
         [TestMethod]
         public void HasAllActionOk()
         {
             string[] actions = new[] {"City", "Road", "YearMonth"};
-            ActionService service = new ActionService();
+            ActionService service = Config.Get<ActionService>();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsFalse(hasAllAction);
         }
@@ -20,8 +33,8 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         [TestMethod]
         public void HasAllActionWithVerticalBar()
         {
-            string[] actions = new[] { "Country|City", "Road", "YearMonth" };
-            ActionService service = new ActionService();
+            string[] actions = new[] { $"Country{Config.AlternativeCharacter}City", "Road", "YearMonth" };
+            ActionService service = Config.Get<ActionService>();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsFalse(hasAllAction);
         }
@@ -30,7 +43,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         public void HasAllActionKo()
         {
             string[] actions = new[] { "City","Invented", "Road", "YearMonth" };
-            ActionService service = new ActionService();
+            ActionService service = Config.Get<ActionService>();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsTrue(hasAllAction);
         }
@@ -39,7 +52,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         public void HasAllActionWithEmptyActions()
         {
             string[] actions = new string[0];
-            ActionService service = new ActionService();
+            ActionService service = Config.Get<ActionService>();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsFalse(hasAllAction);
         }
@@ -48,15 +61,23 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         [TestMethod]
         public void GetAllActionOk()
         {
-            ActionService service = new ActionService();
+            ActionService service = Config.Get<ActionService>();
             string allActions = service.ActionsToString();
-            Assert.AreEqual("City,Road,Restaurant,Village,Country,County,AmenityType,AmenityName,Date,DateTime,Time,YearMonth", allActions);
+            Assert.AreEqual("City,Road,Village,Country,County,AmenityType,AmenityName,Date,DateTime,Time,YearMonth,Noop", allActions);
         }
 
         [TestMethod]
-        public void GetSubFoldersOk()
+        public async Task GetSubFoldersOk()
         {
-            throw new NotImplementedException("Have to change City/ByDate the way to instantiate");
+            var actionParser = new Mock<IActionParser>();
+            actionParser.Setup<SubFolders>(t =>
+                    t.InvokeWithAlternative(It.IsAny<KeysAlternatives>(), It.IsAny<SubFolders>(), It.IsAny<string>()))
+                .Returns(() => new MainFolder(Directory.GetCurrentDirectory()));
+            ActionService service = new ActionService(actionParser.Object);
+            var subFolder = await service.GetSubFolder(Directory.GetCurrentDirectory(), new[] {"City", "Day"},
+                new MainFolder(Directory.GetCurrentDirectory()), new FileFormatters());
+            actionParser.Verify(t => t.InvokeWithAlternative(It.IsAny<KeysAlternatives>(), It.IsAny<SubFolders>(), It.IsAny<string>()),Times.Exactly(2));
+            Assert.AreEqual(Directory.GetCurrentDirectory(),subFolder);
         }
         
     }

@@ -25,7 +25,9 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         private IMetadataService GetMetadataService()
         {
             var currentDirectory = Directory.GetCurrentDirectory();
-            return new MetadataService($@"{currentDirectory}\Resources\Image.jpg");
+            var metadataService = new MetadataService();
+            metadataService.SetFileInformation($@"{currentDirectory}\Resources\Image.jpg");
+            return metadataService;
         }
     }
 }

@@ -7,17 +7,6 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
     public abstract class SubFolders
     {
         public abstract Task<string> GetSubFolder(IFormatter formatter);
-        protected MetadataService Metadata;
-        protected string Alternative;
-
-        public void SetMetaData(MetadataService metadataService)
-        {
-            Metadata = metadataService;
-        }
-
-        public void SetAlternative(string alternative)
-        {
-            Alternative = alternative;
-        }
     }
+
 }

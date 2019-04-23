@@ -2,6 +2,7 @@
 {
     public interface IMetadataService
     {
+        void SetFileInformation(string file);
         string GetKey(string key);
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
+using Kifreak.KiImageOrganizer.Console.Configuration;
 
 namespace Kifreak.KiImageOrganizer.Console.Commands
 {
@@ -32,7 +33,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         public string Description => "Remove all cache files";
         public ICommand MakeCommand(string[] arguments)
         {
-            return new RemoveCacheCommand();
+            return Config.Get<RemoveCacheCommand>();
         }
         #endregion
     }

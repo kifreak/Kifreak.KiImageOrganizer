@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
+using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Helpers;
 using Kifreak.KiImageOrganizer.Console.Services;
@@ -11,15 +14,17 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
     public class RenameFilesCommands : ICommand, ICommandFactory
     {
         
-        public RenameFilesCommands()
+        public RenameFilesCommands(ActionService actionService, ParameterParser parameterParser)
         {
-            _actionService = new ActionService();
+            _actionService = actionService;
+            _parameterParser = parameterParser;
         }
 
         public string Directory { get; set; }
         public string[] ByLabels { get; set; }
 
         private readonly ActionService _actionService;
+        private readonly ParameterParser _parameterParser;
 
         #region ICommand
 
@@ -57,18 +62,16 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         public CommandFactory.ICommand MakeCommand(string[] arguments)
         {
-            ParameterParser parser = new ParameterParser();
-            string[] parameters = parser.GetParameters(arguments, 2, 2);
+            
+            string[] parameters = _parameterParser.GetParameters(arguments, 2, 2);
+            var renameFilesCommand = Config.Get<RenameFilesCommands>();
             if (parameters == null)
             {
-                return new RenameFilesCommands();
+                return renameFilesCommand;
             }
-
-            return new RenameFilesCommands
-            {
-                Directory = arguments[1],
-                ByLabels = parameters
-            };
+            renameFilesCommand.Directory = arguments[1];
+            renameFilesCommand.ByLabels = parameters;
+            return renameFilesCommand;
         }
 
         #endregion

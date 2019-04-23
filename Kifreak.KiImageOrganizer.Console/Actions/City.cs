@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
@@ -11,31 +12,31 @@ using Kifreak.KiImageOrganizer.Console.Services;
 
 namespace Kifreak.KiImageOrganizer.Console.Actions
 {
+   
     public class City : SubFolderDecorator
     {
+        private readonly ActionModel _model;
         private readonly GeoService _geoService;
-        private readonly string _type;
         private const string _noLocationString = "NoLocation";
 
-        public City(string type, SubFolders subFolders) : base(
-            subFolders)
+        public City(ActionModel model) : base(model.Folders)
         {
-            _type = type;
-            _geoService = new GeoService(Directory.GetCurrentDirectory(), new HttpClientHandler());
+            _model = model;
+            _geoService = Config.Get<GeoService>(new[] {"path", "handler"},
+                new object[] {Directory.GetCurrentDirectory(), new HttpClientHandler()});
         }
-
         public override async Task<string> GetSubFolder(IFormatter formatter)
         {
-            return formatter.Format(await _subFolders.GetSubFolder(formatter), await GetSubFolderFromAction());
+            return formatter.Format(await _subFolders.GetSubFolder(formatter), await GetSubFolderFromAction(formatter));
         }
 
-        private async Task<string> GetSubFolderFromAction()
+        private async Task<string> GetSubFolderFromAction(IFormatter formatter)
         {
             Coordinates coordinates = GetCoordinates();
             if (coordinates == null || !coordinates.IsValid()) return _noLocationString;
 
             OSMData osmData =await _geoService.GetOsmData(coordinates);
-            return GetValue(osmData);
+            return GetValue(osmData) ?? (_model.Alternative != null ? await _model.Alternative.GetSubFolder(formatter) : _noLocationString);
         }
 
         private string GetValue(OSMData osmData)
@@ -43,13 +44,13 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             PropertyInfo property = GetProperty(osmData);
             if (property == null) return _noLocationString;
             object value = property.GetValue(osmData.address);
-            return value == null ? _noLocationString : value.ToString();
+            return value?.ToString();
         }
 
         private PropertyInfo GetProperty(OSMData osmData)
         {
             var osmType = osmData.address.GetType();
-            return osmType.GetProperty(osmType.GetProperty(_type)?.GetValue(osmData.address) != null || string.IsNullOrEmpty(Alternative)? _type : Alternative?.ToLower());
+            return osmType.GetProperty(_model.Type.Type);
         }
         private Coordinates GetCoordinates()
         {
@@ -61,7 +62,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
 
         private string GetCoordinateInfo(string key)
         {
-            string coordinate = Metadata.GetKey(key);
+            string coordinate = _model.MetadataService.GetKey(key);
             if (string.IsNullOrEmpty(coordinate))
             {
                 return string.Empty;

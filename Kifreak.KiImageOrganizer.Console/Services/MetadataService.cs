@@ -8,13 +8,11 @@ namespace Kifreak.KiImageOrganizer.Console.Services
     public class MetadataService: IMetadataService
     {
         private readonly string _path;
-        private readonly List<Directory> _metadataInfo;
-        public MetadataService(string path)
+        private List<Directory> _metadataInfo;
+        public void SetFileInformation(string file)
         {
-            _path = path;
-            _metadataInfo =  ImageMetadataReader.ReadMetadata(path).ToList();
+            _metadataInfo = ImageMetadataReader.ReadMetadata(file).ToList();
         }
-
         public string GetKey(string key)
         {
             MetadataExtractor.Directory sectionValue = _metadataInfo.FirstOrDefault(t => t.Tags.Any(x => x.Name.Contains(key)));

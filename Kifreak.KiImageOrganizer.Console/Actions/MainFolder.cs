@@ -1,4 +1,5 @@
-﻿using Kifreak.KiImageOrganizer.Console.Formatters;
+﻿using System.Threading.Tasks;
+using Kifreak.KiImageOrganizer.Console.Formatters;
 
 namespace Kifreak.KiImageOrganizer.Console.Actions
 {
@@ -12,7 +13,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             _path = path;
         }
 
-        public override string GetSubFolder(IFormatter formatter)
+        public override async Task<string> GetSubFolder(IFormatter formatter)
         {
             return formatter.Format(_path,string.Empty);
         }

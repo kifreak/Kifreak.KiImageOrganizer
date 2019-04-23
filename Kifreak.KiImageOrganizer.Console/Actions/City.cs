@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
@@ -19,20 +21,20 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             subFolders)
         {
             _type = type;
-            _geoService = new GeoService(Directory.GetCurrentDirectory());
+            _geoService = new GeoService(Directory.GetCurrentDirectory(), new HttpClientHandler());
         }
 
-        public override string GetSubFolder(IFormatter formatter)
+        public override async Task<string> GetSubFolder(IFormatter formatter)
         {
-            return formatter.Format(_subFolders.GetSubFolder(formatter), GetSubFolderFromAction());
+            return formatter.Format(await _subFolders.GetSubFolder(formatter), await GetSubFolderFromAction());
         }
 
-        private string GetSubFolderFromAction()
+        private async Task<string> GetSubFolderFromAction()
         {
             Coordinates coordinates = GetCoordinates();
             if (coordinates == null || !coordinates.IsValid()) return _noLocationString;
 
-            OSMData osmData = _geoService.GetOsmData(coordinates);
+            OSMData osmData =await _geoService.GetOsmData(coordinates);
             return GetValue(osmData);
         }
 

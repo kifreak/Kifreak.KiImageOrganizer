@@ -39,7 +39,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
                 return false;
             }
 
-            if (!_actionService.HasAllAction(ByLabels)) return true;
+            if (!_actionService.HasNoExistAction(ByLabels)) return true;
             ConsoleHelper.Error("There are labels that are not accepted");
             ConsoleHelper.Info(Description);
             return false;
@@ -76,7 +76,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         #region Private Methods
         private void Run()
         {
-            CommandsHelper.ForeachFiles(Directory, file => { RenameFile(file, GetNewFileName(file)); });
+            CommandsHelper.ForeachFiles(Directory, async file => { RenameFile(file, await GetNewFileName(file)); });
         }
 
         private void RenameFile(string file, string newFile)
@@ -92,9 +92,9 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
             File.Move(file, newFileCompletePath);
         }
 
-        private string GetNewFileName(string file)
+        private async Task<string> GetNewFileName(string file)
         {
-            string newFile =  _actionService.GetSubFolder(file, ByLabels,
+            string newFile =  await _actionService.GetSubFolder(file, ByLabels,
                 new MainFolder(string.Empty),
                 new FileFormatters());
             return newFile;

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using Kifreak.KiImageOrganizer.Console.Models;
@@ -12,10 +14,12 @@ namespace Kifreak.KiImageOrganizer.Console.Services
     public class GeoService
     {
         private readonly string _path;
+        private readonly HttpMessageHandler _handler;
 
-        public GeoService(string path)
+        public GeoService(string path, HttpMessageHandler handler)
         {
             _path = path ;
+            _handler = handler;
         }
         public double ConvertCoordinates(double degrees, double minutes, double seconds)
         {
@@ -26,7 +30,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             }
             return (multiplier) * (Math.Abs(degrees) + (minutes / 60) + (seconds / 3600));
         }
-        public OSMData GetOsmData(Coordinates coordinates)
+        public async Task<OSMData> GetOsmData(Coordinates coordinates)
         {
             if (!coordinates.IsValid())
             {
@@ -39,34 +43,25 @@ namespace Kifreak.KiImageOrganizer.Console.Services
                 return data;
             }
 
-            data = CallOsmData(coordinates);
+            data = await CallOsmData(coordinates);
             SaveToFile(coordinates,data);
             return data;
         }
         //TODO: Include in JSON file all Call and not just the first one.
-        private OSMData CallOsmData(Coordinates coordinates)
+        private async Task<OSMData> CallOsmData(Coordinates coordinates)
         {
-            string url =
-                $"https://nominatim.openstreetmap.org/reverse?format=json&lat={coordinates.Latitude}&lon={coordinates.Longitude}";
-            var client = new WebClient();
-            client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; " +
-                                             "Windows NT 5.2; .NET CLR 1.0.3705;)");
-            WaitForNextAllowCallToOsm();
-            string response = client.DownloadString(url);
-            OSMData data = ToOSMData(response);
+            string osmDataResponse = await
+                CallUrl(
+                    $"https://nominatim.openstreetmap.org/reverse?format=json&lat={coordinates.Latitude}&lon={coordinates.Longitude}");
+            OSMData data = ToOSMData(osmDataResponse);
             Config.LastCallToOSM = DateTime.Now;
-            GetAmenityInfo(data);
+            await GetAmenityInfo(data);
             return data;
         }
 
-        private void GetAmenityInfo(OSMData data)
+        private async Task GetAmenityInfo(OSMData data)
         {
-            string url = $"https://api.openstreetmap.org/api/0.6/{data.osm_type}/{data.osm_id}";
-            var client = new WebClient();
-            client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; " +
-                                             "Windows NT 5.2; .NET CLR 1.0.3705;)");
-            WaitForNextAllowCallToOsm();
-            string response = client.DownloadString(url);
+            string response = await CallUrl($"https://api.openstreetmap.org/api/0.6/{data.osm_type}/{data.osm_id}");
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(response);
             var amenity = xml.DocumentElement.SelectSingleNode("//*[@k='amenity']");
@@ -85,6 +80,19 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             Config.LastCallToOSM = DateTime.Now;
         }
 
+
+        private async Task<string> CallUrl(string url)
+        {
+            var client = new HttpClient(_handler);
+            client.DefaultRequestHeaders.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; " +
+                                                           "Windows NT 5.2; .NET CLR 1.0.3705;)");
+            WaitForNextAllowCallToOsm();
+            HttpResponseMessage response = await client.GetAsync(url);
+            StreamReader reader = new StreamReader(await response.Content.ReadAsStreamAsync());
+            string osmDataResponse = reader.ReadToEnd();
+            reader.Close();
+            return osmDataResponse;
+        }
 
         private OSMData ToOSMData(string text)
         {

@@ -20,10 +20,9 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         private readonly ActionService _actionService;
 
         #region ICommand
-        public Task Execute()
+        public async Task Execute()
         {
-            Run();
-            return Task.CompletedTask;
+            await Run();
         }
 
         public bool Validate()
@@ -36,7 +35,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
                 return false;
             }
 
-            if (_actionService.HasAllAction(ByLabels))
+            if (_actionService.HasNoExistAction(ByLabels))
             {
                 ConsoleHelper.Error("There are labels that are not accepted");
                 ConsoleHelper.Info(Description);
@@ -70,19 +69,19 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         #endregion
 
-            #region Private Methods
-            private void Run()
+        #region Private Methods
+            private async Task Run()
             {
-                CommandsHelper.ForeachFiles(Directory, (file) =>
+                CommandsHelper.ForeachFiles(Directory, async (file) =>
                 {
-                    string newFolder = GetFileFolder(file);
+                    string newFolder = await GetFileFolder(file);
                     CreateFolderIfIsNecessary(newFolder);
                     MoveFileToNewPath(file, newFolder);
                 });
             }
-            private string GetFileFolder(string file)
+            private async Task<string> GetFileFolder(string file)
             {
-                string newFolder =  _actionService.GetSubFolder(file,ByLabels, 
+                string newFolder = await _actionService.GetSubFolder(file,ByLabels, 
                     new MainFolder($@"{Directory}\Organized"),
                     new FolderFormatters());
                 ConsoleHelper.Info($"{file} copy to {newFolder}");

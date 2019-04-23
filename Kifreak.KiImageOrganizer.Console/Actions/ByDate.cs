@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Services;
 
@@ -13,9 +14,9 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         {
             _format = format;
         }
-        public override string GetSubFolder(IFormatter formatter)
+        public override async Task<string> GetSubFolder(IFormatter formatter)
         {
-            return formatter.Format(_subFolders.GetSubFolder(formatter), GetSubFolderFromAction());
+            return formatter.Format(await _subFolders.GetSubFolder(formatter), GetSubFolderFromAction());
         }
 
         private string GetSubFolderFromAction()

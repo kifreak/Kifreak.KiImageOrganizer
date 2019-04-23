@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Kifreak.KiImageOrganizer.Console.Helpers
 {
     public static class CommandsHelper
     {
-        public static void ForeachFiles(string directory,Action<string> action)
+        public static void ForeachFiles(string directory,Func<string, Task> action)
         {
             var allFiles = System.IO.Directory.GetFiles(directory);
             foreach (string file in allFiles)
             {
-               action.Invoke(file);
+               Task tsk = action.Invoke(file);
+               tsk.Wait();
             }
         }
 

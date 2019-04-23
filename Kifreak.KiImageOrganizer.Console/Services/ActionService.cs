@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Models;
@@ -29,7 +30,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
         //City|DateTime
         public MetadataService MetadataInfo { get; private set; }
 
-        public bool HasAllAction(string[] actions)
+        public bool HasNoExistAction(string[] actions)
         {
             return actions.Any(t => !ActionList.ContainsKey(t.Split('|')[0]));
         }
@@ -39,7 +40,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             return string.Join(",", ActionList.Select(t => t.Key).ToList());
         }
 
-        public string GetSubFolder(string file, string[] labels, SubFolders subFolder,IFormatter formatter)
+        public async Task<string> GetSubFolder(string file, string[] labels, SubFolders subFolder,IFormatter formatter)
         {
             GetMetadataInfo(file);
             _subFolders = subFolder;
@@ -51,7 +52,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
                _subFolders.SetMetaData(MetadataInfo);
             }
 
-            return _subFolders.GetSubFolder(formatter);
+            return await _subFolders.GetSubFolder(formatter);
 
         }
 

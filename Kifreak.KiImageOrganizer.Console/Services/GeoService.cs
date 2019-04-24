@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Serialization;
 using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Newtonsoft.Json;
@@ -48,7 +46,6 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             SaveToFile(coordinates,data);
             return data;
         }
-        //TODO: Include in JSON file all Call and not just the first one.
         private async Task<OSMData> CallOsmData(Coordinates coordinates)
         {
             string osmDataResponse = await

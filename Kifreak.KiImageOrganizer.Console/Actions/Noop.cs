@@ -11,7 +11,6 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         public override async Task<string> GetSubFolder(IFormatter formatter)
         {
             return string.Empty;
-
         }
     }
 }

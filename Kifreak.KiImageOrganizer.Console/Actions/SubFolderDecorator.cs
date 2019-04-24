@@ -1,7 +1,5 @@
-﻿using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Formatters;
-using Kifreak.KiImageOrganizer.Console.Services;
 
 
 namespace Kifreak.KiImageOrganizer.Console.Actions

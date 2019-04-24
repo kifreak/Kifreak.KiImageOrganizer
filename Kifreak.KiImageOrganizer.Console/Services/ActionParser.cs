@@ -9,23 +9,6 @@ namespace Kifreak.KiImageOrganizer.Console.Services
 {
     public class ActionParser : IActionParser
     {
-        //protected Dictionary<string, Func<ActionModel>> ActionList => new Dictionary<string, Func<ActionModel>>
-        //{
-        //    {"City" ,(actionModel) => City.Init()
-        //        City.Init("City",alternative, folders,metadataService)},
-        //    {"Road" ,(folders,alternative,metadataService) => City.Init("Road",alternative,folders,metadataService)},
-        //    {"Village" ,(folders,alternative,metadataService) => City.Init("Village",alternative,folders,metadataService)},
-        //    {"Country" ,(folders,alternative,metadataService) => City.Init("Country",alternative,folders,metadataService)},
-        //    {"County" ,(folders,alternative,metadataService) => City.Init("County",alternative,folders,metadataService)},
-        //    {"AmenityType", (folders,alternative,metadataService) => City.Init("AmenityType",alternative,folders,metadataService) },
-        //    {"AmenityName", (folders,alternative,metadataService) => City.Init("AmenityName",alternative,folders,metadataService) },
-        //    {"Date", (folders,alternative,metadataService)=> ByDate.Init("yyyy-MM-dd",alternative,folders,metadataService)},
-        //    {"DateTime", (folders,alternative,metadataService)=> ByDate.Init("yyyy-MM-dd HH_mm_ss",alternative,folders,metadataService)},
-        //    {"Time", (folders,alternative,metadataService)=> ByDate.Init("HH_mm_ss",alternative,folders,metadataService)},
-        //    {"YearMonth", (folders,alternative,metadataService) => ByDate.Init("yyyy-MM",alternative,folders,metadataService) },
-        //    {"Noop", (folders,alternative,metadataServices) => new Noop(folders) }
-        //};
-
         private readonly Dictionary<string, ActionExecutionModel> _actionType = new Dictionary<string, ActionExecutionModel>
         {
             { "City",new ActionExecutionModel { Class = "City", Type ="City"}},

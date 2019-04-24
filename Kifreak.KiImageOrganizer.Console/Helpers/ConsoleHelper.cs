@@ -26,5 +26,4 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
             System.Console.ReadKey();
         }
     }
-
 }

@@ -13,7 +13,7 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
         {
             builder.RegisterType<ActionParser>().As<IActionParser>();
             builder.RegisterType<ActionService>();
-            builder.RegisterType<GeoService>();
+            builder.RegisterType<GeoService>().As<IGeoService>();
             builder.RegisterType<MetadataService>().As<IMetadataService>();
             builder.RegisterType<NotFoundCommand>();
             builder.RegisterType<OrganizerImagesCommand>();
@@ -27,8 +27,7 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
             builder.RegisterType<MainFolder>();
             builder.RegisterType<FileFormatters>();
             builder.RegisterType<FolderFormatters>();
-
-
+            builder.RegisterType<JustValueFormatters>();
         }
     }
 }

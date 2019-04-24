@@ -6,13 +6,13 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
 {
     public static class CommandsHelper
     {
-        public static void ForeachFiles(string directory,Func<string, Task> action)
+        public static void ForeachFiles(string directory, Func<string, Task> action)
         {
             var allFiles = System.IO.Directory.GetFiles(directory);
             foreach (string file in allFiles)
             {
-               Task tsk = action.Invoke(file);
-               tsk.Wait();
+                Task tsk = action.Invoke(file);
+                tsk.Wait();
             }
         }
 

@@ -1,12 +1,12 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Kifreak.KiImageOrganizer.Console.Actions;
+﻿using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Kifreak.KiImageOrganizer.Tests.Services
 {
@@ -18,10 +18,11 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         {
             Config.Startup();
         }
+
         [TestMethod]
         public void HasAllActionOk()
         {
-            string[] actions = new[] {"City", "Road", "YearMonth"};
+            string[] actions = new[] { "City", "Road", "YearMonth" };
             ActionService service = Config.Get<ActionService>();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsFalse(hasAllAction);
@@ -39,7 +40,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         [TestMethod]
         public void HasAllActionKo()
         {
-            string[] actions = new[] { "City","Invented", "Road", "YearMonth" };
+            string[] actions = new[] { "City", "Invented", "Road", "YearMonth" };
             ActionService service = Config.Get<ActionService>();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsTrue(hasAllAction);
@@ -54,7 +55,6 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
             Assert.IsFalse(hasAllAction);
         }
 
-
         [TestMethod]
         public void GetAllActionOk()
         {
@@ -67,15 +67,14 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         public async Task GetSubFoldersOk()
         {
             var actionParser = new Mock<IActionParser>();
-            actionParser.Setup<SubFolders>(t =>
+            actionParser.Setup(t =>
                     t.InvokeWithAlternative(It.IsAny<KeysAlternatives>(), It.IsAny<SubFolders>(), It.IsAny<string>()))
                 .Returns(() => new MainFolder(Directory.GetCurrentDirectory()));
             ActionService service = new ActionService(actionParser.Object);
-            var subFolder = await service.GetSubFolder(Directory.GetCurrentDirectory(), new[] {"City", "Day"},
+            var subFolder = await service.GetSubFolder(Directory.GetCurrentDirectory(), new[] { "City", "Day" },
                 new MainFolder(Directory.GetCurrentDirectory()), new FileFormatters());
-            actionParser.Verify(t => t.InvokeWithAlternative(It.IsAny<KeysAlternatives>(), It.IsAny<SubFolders>(), It.IsAny<string>()),Times.Exactly(2));
-            Assert.AreEqual(Directory.GetCurrentDirectory(),subFolder);
+            actionParser.Verify(t => t.InvokeWithAlternative(It.IsAny<KeysAlternatives>(), It.IsAny<SubFolders>(), It.IsAny<string>()), Times.Exactly(2));
+            Assert.AreEqual(Directory.GetCurrentDirectory(), subFolder);
         }
-        
     }
 }

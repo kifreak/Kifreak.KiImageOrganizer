@@ -1,19 +1,41 @@
 ﻿// ReSharper disable UnusedMember.Global
+
+using Newtonsoft.Json;
+
 namespace Kifreak.KiImageOrganizer.Console.Models
 {
     public class Address
     {
-        public string house_number { get; set; }
-        public string road { get; set; }
-        public string suburb { get; set; }
+        [JsonProperty("house_number")]
+        public string HouseNumber { get; set; }
 
-        public string village { get; set; }
-        public string city { get; set; }
-        public string county { get; set; }
-        public string state { get; set; }
-        public string postcode { get; set; }
-        public string country { get; set; }
-        public string country_code { get; set; }
+        [JsonProperty("road")]
+        public string Road { get; set; }
+
+        [JsonProperty("suburb")]
+        public string SubUrb { get; set; }
+
+        [JsonProperty("village")]
+        public string Village { get; set; }
+
+        [JsonProperty("city")]
+        public string City { get; set; }
+
+        [JsonProperty("county")]
+        public string County { get; set; }
+
+        [JsonProperty("state")]
+        public string State { get; set; }
+
+        [JsonProperty("postcode")]
+        public string PostCode { get; set; }
+
+        [JsonProperty("country")]
+        public string Country { get; set; }
+
+        [JsonProperty("country_code")]
+        public string CountryCode { get; set; }
+
         public string AmenityName { get; set; }
         public string AmenityType { get; set; }
     }

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using Autofac.Core;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
 using Kifreak.KiImageOrganizer.Console.Commands;
+using System;
+using System.Collections.Generic;
 
 namespace Kifreak.KiImageOrganizer.Console.Configuration
 {
@@ -11,7 +11,8 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
     {
         public static DateTime LastCallToOSM { get; set; }
         public static char AlternativeCharacter => '\\';
-        public static IContainer Container { get; set; } 
+        public static IContainer Container { get; set; }
+
         public static IEnumerable<ICommandFactory> GetAvailableCommands()
         {
             return new ICommandFactory[]
@@ -22,8 +23,8 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
 
         public static void Startup()
         {
-           Injection injection = new Injection();
-           injection.Execute();
+            Injection injection = new Injection();
+            injection.Execute();
         }
 
         public static T Get<T>(string[] keys, object[] values)
@@ -40,10 +41,12 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
 
             return Container.Resolve<T>(parameterList);
         }
+
         public static T Get<T>(string key, object value)
         {
-            return Get<T>(new[] {key}, new object[] {value});
+            return Get<T>(new[] { key }, new[] { value });
         }
+
         public static T Get<T>()
         {
             return Container.Resolve<T>();

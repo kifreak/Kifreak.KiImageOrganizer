@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Kifreak.KiImageOrganizer.Console.CommandFactory;
+﻿using Kifreak.KiImageOrganizer.Console.CommandFactory;
 using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Helpers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Kifreak.KiImageOrganizer.Console
 {
-    class Program
-    {static async Task Main(string[] args)
+    internal class Program
+    {
+        private static async Task Main(string[] args)
         {
             Config.Startup();
             var availableCommands = Config.GetAvailableCommands();
@@ -24,7 +25,7 @@ namespace Kifreak.KiImageOrganizer.Console
             }
             ConsoleHelper.EndProgram();
         }
-      
+
         private static void PrintUsage(IEnumerable<ICommandFactory> availableCommands)
         {
             System.Console.WriteLine("Usage: Commands available");

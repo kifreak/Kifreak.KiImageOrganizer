@@ -1,5 +1,5 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
+using System;
 
 namespace Kifreak.KiImageOrganizer.Console.Configuration
 {
@@ -25,6 +25,5 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
             registerMoreAssemblies?.Invoke(_builder);
             Config.Container = _builder.Build();
         }
-
     }
 }

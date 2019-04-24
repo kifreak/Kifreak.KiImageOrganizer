@@ -11,7 +11,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Helpers
         {
             string testString = "<>:“\"/\\|?*Hi";
             var newString = CommandsHelper.RemoveAllNotAllowedCharacters(testString);
-            Assert.AreEqual( "Hi", newString);
+            Assert.AreEqual("Hi", newString);
         }
     }
 }

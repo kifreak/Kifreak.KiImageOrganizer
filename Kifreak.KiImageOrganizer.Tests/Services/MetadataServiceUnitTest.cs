@@ -1,13 +1,12 @@
-﻿using System.IO;
-using Kifreak.KiImageOrganizer.Console.Services;
+﻿using Kifreak.KiImageOrganizer.Console.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 
 namespace Kifreak.KiImageOrganizer.Tests.Services
 {
     [TestClass]
     public class MetadataServiceUnitTest
     {
-
         [TestMethod]
         public void GetMetadata()
         {

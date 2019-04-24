@@ -1,57 +1,66 @@
-﻿using System;
+﻿using Kifreak.KiImageOrganizer.Console.Configuration;
+using Kifreak.KiImageOrganizer.Console.Formatters;
+using Kifreak.KiImageOrganizer.Console.Models;
+using Kifreak.KiImageOrganizer.Console.Services;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
-using Kifreak.KiImageOrganizer.Console.Configuration;
-using Kifreak.KiImageOrganizer.Console.Formatters;
-using Kifreak.KiImageOrganizer.Console.Models;
-using Kifreak.KiImageOrganizer.Console.Services;
-
+using Kifreak.KiImageOrganizer.Console.Helpers;
 
 namespace Kifreak.KiImageOrganizer.Console.Actions
 {
-   
     public class City : SubFolderDecorator
     {
         private readonly ActionModel _model;
-        private readonly GeoService _geoService;
+        private readonly IGeoService _geoService;
         private const string _noLocationString = "NoLocation";
 
+        // ReSharper disable once UnusedMember.Global
         public City(ActionModel model) : base(model.Folders)
         {
             _model = model;
-            _geoService = Config.Get<GeoService>(new[] {"path", "handler"},
-                new object[] {Directory.GetCurrentDirectory(), new HttpClientHandler()});
-        }
-        public override async Task<string> GetSubFolder(IFormatter formatter)
-        {
-            return formatter.Format(await _subFolders.GetSubFolder(formatter), await GetSubFolderFromAction(formatter));
+            _geoService = Config.Get<IGeoService>(new[] { "path", "handler" },
+                new object[] { Directory.GetCurrentDirectory(), new HttpClientHandler() });
         }
 
-        private async Task<string> GetSubFolderFromAction(IFormatter formatter)
+        public City(ActionModel model, IGeoService geoService) : base(model.Folders)
+        {
+            _model = model;
+            _geoService = geoService;
+        }
+
+        public override async Task<string> GetSubFolder(IFormatter formatter)
+        {
+            return formatter.Format(await _subFolders.GetSubFolder(formatter), await GetSubFolderFromAction());
+        }
+
+        private async Task<string> GetSubFolderFromAction()
         {
             Coordinates coordinates = GetCoordinates();
             if (coordinates == null || !coordinates.IsValid()) return _noLocationString;
 
-            OSMData osmData =await _geoService.GetOsmData(coordinates);
-            return GetValue(osmData) ?? (_model.Alternative != null ? await _model.Alternative.GetSubFolder(formatter) : _noLocationString);
+            OSMData osmData = await _geoService.GetOsmData(coordinates);
+            var result = GetValue(osmData);
+            return result ?? await ActionHelpers.ExecuteWithAlternative(_model.Alternative, _noLocationString);
         }
 
         private string GetValue(OSMData osmData)
         {
             PropertyInfo property = GetProperty(osmData);
-            if (property == null) return _noLocationString;
-            object value = property.GetValue(osmData.address);
+            if (property == null) return null;
+            object value = property.GetValue(osmData.Address);
             return value?.ToString();
         }
 
         private PropertyInfo GetProperty(OSMData osmData)
         {
-            var osmType = osmData.address.GetType();
+            var osmType = osmData.Address.GetType();
             return osmType.GetProperty(_model.Type.Type);
         }
+
         private Coordinates GetCoordinates()
         {
             return new Coordinates(

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Kifreak.KiImageOrganizer.Console.Commands;
+using Kifreak.KiImageOrganizer.Console.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Kifreak.KiImageOrganizer.Console.Commands;
-using Kifreak.KiImageOrganizer.Console.Configuration;
 
 namespace Kifreak.KiImageOrganizer.Console.CommandFactory
 {
@@ -30,7 +30,7 @@ namespace Kifreak.KiImageOrganizer.Console.CommandFactory
 
         private ICommandFactory FindRequestCommand(string commandName)
         {
-            return _availableCommands.FirstOrDefault(t => string.Equals(t.CommandName,commandName, StringComparison.CurrentCultureIgnoreCase));
+            return _availableCommands.FirstOrDefault(t => string.Equals(t.CommandName, commandName, StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }

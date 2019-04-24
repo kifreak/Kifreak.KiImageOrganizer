@@ -1,17 +1,16 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Kifreak.KiImageOrganizer.Console.Actions;
+﻿using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
 using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Formatters;
 using Kifreak.KiImageOrganizer.Console.Helpers;
 using Kifreak.KiImageOrganizer.Console.Services;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Kifreak.KiImageOrganizer.Console.Commands
 {
     public class RenameFilesCommands : ICommand, ICommandFactory
     {
-        
         public RenameFilesCommands(ActionService actionService, ParameterParser parameterParser)
         {
             _actionService = actionService;
@@ -46,10 +45,9 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
             ConsoleHelper.Error("There are labels that are not accepted");
             ConsoleHelper.Info(Description);
             return false;
-
         }
 
-        #endregion
+        #endregion ICommand
 
         #region ICommandFactory
 
@@ -58,9 +56,8 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         public string Description =>
             $@"Rename files. Params Actions:  [{_actionService.ActionsToString()}]. Can make alternative in case your parameter doesn't exist (i.e. City|Village).  Not working in different types of parameters (like City|Hour). Example RenameFiles C:\MyFolder DateTime Restaurant City";
 
-        public CommandFactory.ICommand MakeCommand(string[] arguments)
+        public ICommand MakeCommand(string[] arguments)
         {
-            
             string[] parameters = _parameterParser.GetParameters(arguments, 2, 2);
             var renameFilesCommand = Config.Get<RenameFilesCommands>();
             if (parameters == null)
@@ -72,9 +69,10 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
             return renameFilesCommand;
         }
 
-        #endregion
+        #endregion ICommandFactory
 
         #region Private Methods
+
         private void Run()
         {
             CommandsHelper.ForeachFiles(Directory, async file => { RenameFile(file, await GetNewFileName(file)); });
@@ -95,11 +93,12 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         private async Task<string> GetNewFileName(string file)
         {
-            string newFile =  await _actionService.GetSubFolder(file, ByLabels,
+            string newFile = await _actionService.GetSubFolder(file, ByLabels,
                 new MainFolder(string.Empty),
                 new FileFormatters());
             return newFile;
         }
-        #endregion 
+
+        #endregion Private Methods
     }
 }

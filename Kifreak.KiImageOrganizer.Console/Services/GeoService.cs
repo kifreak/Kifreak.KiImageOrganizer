@@ -1,25 +1,26 @@
-﻿using System;
+﻿using Kifreak.KiImageOrganizer.Console.Configuration;
+using Kifreak.KiImageOrganizer.Console.Models;
+using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using Kifreak.KiImageOrganizer.Console.Configuration;
-using Kifreak.KiImageOrganizer.Console.Models;
-using Newtonsoft.Json;
 
 namespace Kifreak.KiImageOrganizer.Console.Services
 {
-    public class GeoService
+    public class GeoService : IGeoService
     {
         private readonly string _path;
         private readonly HttpMessageHandler _handler;
 
         public GeoService(string path, HttpMessageHandler handler)
         {
-            _path = path ;
+            _path = path;
             _handler = handler;
         }
+
         public double ConvertCoordinates(double degrees, double minutes, double seconds)
         {
             int multiplier = 1;
@@ -29,6 +30,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             }
             return (multiplier) * (Math.Abs(degrees) + (minutes / 60) + (seconds / 3600));
         }
+
         public async Task<OSMData> GetOsmData(Coordinates coordinates)
         {
             if (!coordinates.IsValid())
@@ -43,9 +45,10 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             }
 
             data = await CallOsmData(coordinates);
-            SaveToFile(coordinates,data);
+            SaveToFile(coordinates, data);
             return data;
         }
+
         private async Task<OSMData> CallOsmData(Coordinates coordinates)
         {
             string osmDataResponse = await
@@ -59,25 +62,24 @@ namespace Kifreak.KiImageOrganizer.Console.Services
 
         private async Task GetAmenityInfo(OSMData data)
         {
-            string response = await CallUrl($"https://api.openstreetmap.org/api/0.6/{data.osm_type}/{data.osm_id}");
+            string response = await CallUrl($"https://api.openstreetmap.org/api/0.6/{data.OsmType}/{data.OsmId}");
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(response);
-            var amenity = xml.DocumentElement.SelectSingleNode("//*[@k='amenity']");
-            if (amenity == null)
+            if (xml.DocumentElement == null)
             {
-                amenity=  xml.DocumentElement.SelectSingleNode("//*[@k='tourism']");
+                return;
             }
+            var amenity = xml.DocumentElement.SelectSingleNode("//*[@k='amenity']") ?? xml.DocumentElement.SelectSingleNode("//*[@k='tourism']");
             var amenityName = xml.DocumentElement.SelectSingleNode("//*[@k='name']");
-            if (data.address == null)
+            if (data.Address == null)
             {
-                data.address = new Address();
+                data.Address = new Address();
             }
-            data.address.AmenityType = amenity?.Attributes?["v"]?.Value;
-            data.address.AmenityName = amenityName?.Attributes?["v"]?.Value;
-            
+            data.Address.AmenityType = amenity?.Attributes?["v"]?.Value;
+            data.Address.AmenityName = amenityName?.Attributes?["v"]?.Value;
+
             Config.LastCallToOSM = DateTime.Now;
         }
-
 
         private async Task<string> CallUrl(string url)
         {
@@ -103,7 +105,6 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             if (!File.Exists(filePath))
             {
                 return null;
-
             }
             StreamReader reader = new StreamReader(filePath);
             var text = reader.ReadToEnd();
@@ -119,7 +120,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
                 return;
             }
 
-            StreamWriter writer = new StreamWriter(filePath,false);
+            StreamWriter writer = new StreamWriter(filePath, false);
             writer.WriteLine(JsonConvert.SerializeObject(osmData));
             writer.Close();
         }

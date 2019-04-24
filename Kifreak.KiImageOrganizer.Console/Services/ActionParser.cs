@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Kifreak.KiImageOrganizer.Console.Actions;
+﻿using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Kifreak.KiImageOrganizer.Console.Services
 {
-    public class ActionParser: IActionParser
+    public class ActionParser : IActionParser
     {
-    
         //protected Dictionary<string, Func<ActionModel>> ActionList => new Dictionary<string, Func<ActionModel>>
         //{
         //    {"City" ,(actionModel) => City.Init()
-        //        City.Init("city",alternative, folders,metadataService)},
-        //    {"Road" ,(folders,alternative,metadataService) => City.Init("road",alternative,folders,metadataService)},
-        //    {"Village" ,(folders,alternative,metadataService) => City.Init("village",alternative,folders,metadataService)},
-        //    {"Country" ,(folders,alternative,metadataService) => City.Init("country",alternative,folders,metadataService)},
-        //    {"County" ,(folders,alternative,metadataService) => City.Init("county",alternative,folders,metadataService)},
+        //        City.Init("City",alternative, folders,metadataService)},
+        //    {"Road" ,(folders,alternative,metadataService) => City.Init("Road",alternative,folders,metadataService)},
+        //    {"Village" ,(folders,alternative,metadataService) => City.Init("Village",alternative,folders,metadataService)},
+        //    {"Country" ,(folders,alternative,metadataService) => City.Init("Country",alternative,folders,metadataService)},
+        //    {"County" ,(folders,alternative,metadataService) => City.Init("County",alternative,folders,metadataService)},
         //    {"AmenityType", (folders,alternative,metadataService) => City.Init("AmenityType",alternative,folders,metadataService) },
         //    {"AmenityName", (folders,alternative,metadataService) => City.Init("AmenityName",alternative,folders,metadataService) },
         //    {"Date", (folders,alternative,metadataService)=> ByDate.Init("yyyy-MM-dd",alternative,folders,metadataService)},
@@ -27,13 +26,13 @@ namespace Kifreak.KiImageOrganizer.Console.Services
         //    {"Noop", (folders,alternative,metadataServices) => new Noop(folders) }
         //};
 
-        private readonly Dictionary<string,ActionExecutionModel> _actionType = new Dictionary<string, ActionExecutionModel>
+        private readonly Dictionary<string, ActionExecutionModel> _actionType = new Dictionary<string, ActionExecutionModel>
         {
-            { "City",new ActionExecutionModel { Class = "City", Type ="city"}},
-            { "Road", new ActionExecutionModel { Class = "City", Type ="road"}},
-            { "Village",new ActionExecutionModel { Class = "City", Type ="village"}},
-            { "Country",new ActionExecutionModel { Class = "City", Type ="country"}},
-            { "County",new ActionExecutionModel { Class = "City", Type ="county"}},
+            { "City",new ActionExecutionModel { Class = "City", Type ="City"}},
+            { "Road", new ActionExecutionModel { Class = "City", Type ="Road"}},
+            { "Village",new ActionExecutionModel { Class = "City", Type ="Village"}},
+            { "Country",new ActionExecutionModel { Class = "City", Type ="Country"}},
+            { "County",new ActionExecutionModel { Class = "City", Type ="County"}},
             { "AmenityType",new ActionExecutionModel { Class = "City", Type ="AmenityType"}},
             { "AmenityName",new ActionExecutionModel { Class = "City", Type ="AmenityName"}},
             { "Date",new ActionExecutionModel { Class = "ByDate", Type ="yyyy-MM-dd"}},
@@ -41,7 +40,6 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             { "Time",new ActionExecutionModel { Class = "ByDate", Type ="HH_mm_ss"}},
             { "YearMonth",new ActionExecutionModel { Class = "ByDate", Type ="yyyy-MM"}},
             { "Noop",new ActionExecutionModel { Class = "Noop", Type =string.Empty}},
-
         };
 
         public bool HasNoExistAction(string[] actions)
@@ -61,8 +59,8 @@ namespace Kifreak.KiImageOrganizer.Console.Services
                     new ActionModel
                     {
                         MetadataService = metadataService,
-                        Folders =  subFolders,
-                        Type = keysAlternatives.Alternative == null?null:_actionType[keysAlternatives.Alternative]
+                        Folders = subFolders,
+                        Type = keysAlternatives.Alternative == null ? null : _actionType[keysAlternatives.Alternative]
                     })
             };
             return Instantiate(model);
@@ -80,7 +78,8 @@ namespace Kifreak.KiImageOrganizer.Console.Services
                 return null;
             }
             Type type = Type.GetType($"Kifreak.KiImageOrganizer.Console.Actions.{model.Type.Class}");
-            return (SubFolders)Activator.CreateInstance(type ?? throw new InvalidOperationException(),model);
+
+            return (SubFolders)Activator.CreateInstance(type ?? throw new InvalidOperationException(), model);
         }
 
         private IMetadataService GetMetadataService(string filePath)

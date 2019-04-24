@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
-using Kifreak.KiImageOrganizer.Console;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Formatters;
@@ -9,7 +7,6 @@ using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Moq.Protected;
 
 namespace Kifreak.KiImageOrganizer.Tests.Services
 {

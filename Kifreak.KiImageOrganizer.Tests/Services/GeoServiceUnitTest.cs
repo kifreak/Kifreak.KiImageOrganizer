@@ -8,7 +8,6 @@ using Kifreak.KiImageOrganizer.Console.Models;
 using Kifreak.KiImageOrganizer.Console.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Moq.Language.Flow;
 using Moq.Protected;
 
 namespace Kifreak.KiImageOrganizer.Tests.Services

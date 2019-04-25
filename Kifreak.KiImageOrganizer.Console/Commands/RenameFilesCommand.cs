@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Kifreak.KiImageOrganizer.Console.Commands
 {
-    public class RenameFilesCommands : ICommand, ICommandFactory
+    public class RenameFilesCommand : ICommand, ICommandFactory
     {
-        public RenameFilesCommands(ActionService actionService, ParameterParser parameterParser)
+        public RenameFilesCommand(IActionService actionService, ParameterParser parameterParser)
         {
             _actionService = actionService;
             _parameterParser = parameterParser;
@@ -20,7 +20,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         public string Directory { get; set; }
         public string[] ByLabels { get; set; }
 
-        private readonly ActionService _actionService;
+        private readonly IActionService _actionService;
         private readonly ParameterParser _parameterParser;
 
         #region ICommand
@@ -59,7 +59,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         public ICommand MakeCommand(string[] arguments)
         {
             string[] parameters = _parameterParser.GetParameters(arguments, 2, 2);
-            var renameFilesCommand = Config.Get<RenameFilesCommands>();
+            var renameFilesCommand = Config.Get<RenameFilesCommand>();
             if (parameters == null)
             {
                 return renameFilesCommand;

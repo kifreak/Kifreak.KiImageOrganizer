@@ -10,14 +10,14 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 {
     public class AddTagsCommand : ICommand, ICommandFactory
     {
-        private ActionService _actionService;
+        private IActionService _actionService;
         private readonly ParameterParser _parameterParser;
         private readonly IMetadataService _metadataService;
 
         public string Directory { get; set; }
         public string[] ByLabels { get; set; }
 
-        public AddTagsCommand(ActionService actionService, ParameterParser parameterParser, IMetadataService metadataService)
+        public AddTagsCommand(IActionService actionService, ParameterParser parameterParser, IMetadataService metadataService)
         {
             _actionService = actionService;
             _parameterParser = parameterParser;

@@ -23,7 +23,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         public void HasAllActionOk()
         {
             string[] actions = new[] { "City", "Road", "YearMonth" };
-            ActionService service = Config.Get<ActionService>();
+            IActionService service = GetActionService();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsFalse(hasAllAction);
         }
@@ -32,7 +32,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         public void HasAllActionWithVerticalBar()
         {
             string[] actions = new[] { $"Country{Config.AlternativeCharacter}City", "Road", "YearMonth" };
-            ActionService service = Config.Get<ActionService>();
+            IActionService service = GetActionService();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsFalse(hasAllAction);
         }
@@ -41,7 +41,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         public void HasAllActionKo()
         {
             string[] actions = new[] { "City", "Invented", "Road", "YearMonth" };
-            ActionService service = Config.Get<ActionService>();
+            IActionService service = GetActionService();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsTrue(hasAllAction);
         }
@@ -50,7 +50,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         public void HasAllActionWithEmptyActions()
         {
             string[] actions = new string[0];
-            ActionService service = Config.Get<ActionService>();
+            IActionService service = GetActionService();
             bool hasAllAction = service.HasNoExistAction(actions);
             Assert.IsFalse(hasAllAction);
         }
@@ -58,7 +58,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
         [TestMethod]
         public void GetAllActionOk()
         {
-            ActionService service = Config.Get<ActionService>();
+            IActionService service = GetActionService();
             string allActions = service.ActionsToString();
             Assert.AreEqual("City,Road,Village,Country,County,AmenityType,AmenityName,Date,DateTime,Time,YearMonth,Noop", allActions);
         }
@@ -70,11 +70,16 @@ namespace Kifreak.KiImageOrganizer.Tests.Services
             actionParser.Setup(t =>
                     t.InvokeWithAlternative(It.IsAny<KeysAlternatives>(), It.IsAny<SubFolders>(), It.IsAny<string>()))
                 .Returns(() => new MainFolder(Directory.GetCurrentDirectory()));
-            ActionService service = new ActionService(actionParser.Object);
+            IActionService service = new ActionService(actionParser.Object);
             var subFolder = await service.GetSubFolder(Directory.GetCurrentDirectory(), new[] { "City", "Day" },
                 new MainFolder(Directory.GetCurrentDirectory()), new FileFormatters());
             actionParser.Verify(t => t.InvokeWithAlternative(It.IsAny<KeysAlternatives>(), It.IsAny<SubFolders>(), It.IsAny<string>()), Times.Exactly(2));
             Assert.AreEqual(Directory.GetCurrentDirectory(), subFolder);
+        }
+
+        private IActionService GetActionService()
+        {
+            return Config.Get<IActionService>();
         }
     }
 }

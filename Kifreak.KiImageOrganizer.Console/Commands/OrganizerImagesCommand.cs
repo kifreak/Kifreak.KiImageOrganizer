@@ -11,7 +11,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 {
     public class OrganizerImagesCommand : ICommand, ICommandFactory
     {
-        public OrganizerImagesCommand(ActionService actionService, ParameterParser parameterParser)
+        public OrganizerImagesCommand(IActionService actionService, ParameterParser parameterParser)
         {
             _actionService = actionService;
             _parameterParser = parameterParser;
@@ -20,7 +20,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         public string Directory { get; set; }
         public string[] ByLabels { get; set; }
 
-        private readonly ActionService _actionService;
+        private readonly IActionService _actionService;
         private readonly ParameterParser _parameterParser;
 
         #region ICommand

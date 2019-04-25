@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kifreak.KiImageOrganizer.Console.Services
 {
-    public class ActionService
+    public class ActionService : IActionService
     {
         private readonly IActionParser _parser;
 

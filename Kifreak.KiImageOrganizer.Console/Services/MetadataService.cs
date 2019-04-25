@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XperiCode.JpegMetadata;
 
 namespace Kifreak.KiImageOrganizer.Console.Services
 {
@@ -23,6 +24,13 @@ namespace Kifreak.KiImageOrganizer.Console.Services
                 t.Name.Equals(key, StringComparison.OrdinalIgnoreCase));
 
             return tag?.Description;
+        }
+
+        public void WriteInformation(string file, string keyWords)
+        {
+            var adapter = new JpegMetadataAdapter(file);
+            adapter.Metadata.Keywords = keyWords.Split(',');
+            bool saved = adapter.Save();
         }
     }
 }

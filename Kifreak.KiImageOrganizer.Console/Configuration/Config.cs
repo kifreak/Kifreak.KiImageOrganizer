@@ -17,7 +17,7 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
         {
             return new ICommandFactory[]
             {
-                Get<OrganizerImagesCommand>(), Get<RenameFilesCommands>(), Get<RemoveCacheCommand>()
+                Get<OrganizerImagesCommand>(), Get<RenameFilesCommands>(), Get<RemoveCacheCommand>(), Get<AddTagsCommand>()
             };
         }
 

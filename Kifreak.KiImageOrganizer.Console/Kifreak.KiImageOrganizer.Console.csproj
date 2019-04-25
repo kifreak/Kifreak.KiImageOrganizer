@@ -93,7 +93,7 @@
     <Compile Include="CommandFactory\ICommandFactory.cs" />
     <Compile Include="Commands\NotFoundCommand.cs" />
     <Compile Include="Commands\OrganizerImagesCommand.cs" />
-    <Compile Include="Commands\RenameFilesCommands.cs" />
+    <Compile Include="Commands\RenameFilesCommand.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Helpers\ConsoleHelper.cs" />
     <Compile Include="Models\Address.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GeoService.cs" />
     <Compile Include="Services\IActionParser.cs" />
+    <Compile Include="Services\IActionService.cs" />
     <Compile Include="Services\IGeoService.cs" />
     <Compile Include="Services\IMetadataService.cs" />
     <Compile Include="Configuration\InjectionService.cs" />

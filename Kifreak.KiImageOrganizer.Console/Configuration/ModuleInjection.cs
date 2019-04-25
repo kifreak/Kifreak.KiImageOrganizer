@@ -10,7 +10,6 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //TODO: Reduce number of register change by Assembly (Like all Commands must be register always)
             var dataAccess = Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(dataAccess)

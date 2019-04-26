@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
 using Kifreak.KiImageOrganizer.Console.Configuration;
@@ -16,6 +17,8 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         public string Directory { get; set; }
         public string[] ByLabels { get; set; }
+
+        public Dictionary<string, string> OptionsDescription => CommandsHelper.GetBasicTags();
 
         public AddTagsCommand(IActionService actionService, ParameterParser parameterParser, IMetadataService metadataService)
         {

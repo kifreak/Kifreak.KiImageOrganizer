@@ -13,17 +13,54 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
 
         public static void Info(string message)
         {
+            WriteLineDarkYellow(message);
+        }
+
+        public static void EndProgram()
+        {
+            WriteLineDarkGreen("Program finish. Press any key to close this window.");
+            System.Console.ReadKey();
+        }
+
+        public static void WriteLineDarkYellow(string message)
+        {
             System.Console.ForegroundColor = ConsoleColor.DarkYellow;
             System.Console.WriteLine(message);
             System.Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void EndProgram()
+        public static void WriteDarkYellow(string message)
+        {
+            System.Console.ForegroundColor = ConsoleColor.DarkYellow;
+            System.Console.Write(message);
+            System.Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void WriteLineDarkGreen(string message)
         {
             System.Console.ForegroundColor = ConsoleColor.DarkGreen;
-            System.Console.WriteLine("Program finish. Press any key to close this window.");
+            System.Console.WriteLine(message);
             System.Console.ForegroundColor = ConsoleColor.White;
-            System.Console.ReadKey();
+        }
+
+        public static void WriteLineDarkBlue(string message)
+        {
+            System.Console.ForegroundColor = ConsoleColor.DarkBlue;
+            System.Console.WriteLine(message);
+            System.Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void WriteLineSeparator()
+        {
+            System.Console.WriteLine("==========================================================================================");
+        }
+
+        public static void JumpLine(int numberOfLinesToJump)
+        {
+            for (var i = 0; i < numberOfLinesToJump; i++)
+            {
+                System.Console.WriteLine();
+            }
         }
     }
 }

@@ -70,6 +70,7 @@
     <Compile Include="Actions\Noop.cs" />
     <Compile Include="CommandFactory\ParameterParser.cs" />
     <Compile Include="Commands\AddTagsCommand.cs" />
+    <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\RemoveCacheCommand.cs" />
     <Compile Include="Configuration\Injection.cs" />
     <Compile Include="Formatters\JustValueFormatters.cs" />

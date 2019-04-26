@@ -1,4 +1,5 @@
-﻿using Kifreak.KiImageOrganizer.Console.CommandFactory;
+﻿using System.Collections.Generic;
+using Kifreak.KiImageOrganizer.Console.CommandFactory;
 using Kifreak.KiImageOrganizer.Console.Configuration;
 using System.IO;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         public string CommandName => "RemoveCache";
         public string Description => "Remove all cache files";
+        public Dictionary<string, string> OptionsDescription { get; }
 
         public ICommand MakeCommand(string[] arguments)
         {

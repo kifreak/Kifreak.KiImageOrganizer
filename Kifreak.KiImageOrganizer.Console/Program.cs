@@ -3,6 +3,7 @@ using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Kifreak.KiImageOrganizer.Console.Commands;
 
 namespace Kifreak.KiImageOrganizer.Console
 {
@@ -14,7 +15,8 @@ namespace Kifreak.KiImageOrganizer.Console
             var availableCommands = Config.GetAvailableCommands();
             if (args.Length == 0)
             {
-                PrintUsage(availableCommands);
+                var helpCommand = Config.Get<HelpCommand>();
+                await helpCommand.Execute();
                 return;
             }
             var parser = Config.Get<CommandParser>("availableCommands", availableCommands);
@@ -24,15 +26,6 @@ namespace Kifreak.KiImageOrganizer.Console
                 await command.Execute();
             }
             ConsoleHelper.EndProgram();
-        }
-
-        private static void PrintUsage(IEnumerable<ICommandFactory> availableCommands)
-        {
-            System.Console.WriteLine("Usage: Commands available");
-            System.Console.WriteLine("Commands:");
-            foreach (var command in availableCommands)
-                ConsoleHelper.Info($"{command.CommandName}: {command.Description}");
-            System.Console.ReadKey();
         }
     }
 }

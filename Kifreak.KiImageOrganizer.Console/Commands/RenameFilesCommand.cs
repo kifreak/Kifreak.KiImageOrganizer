@@ -1,4 +1,5 @@
-﻿using Kifreak.KiImageOrganizer.Console.Actions;
+﻿using System.Collections.Generic;
+using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.CommandFactory;
 using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Formatters;
@@ -19,6 +20,8 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
 
         public string Directory { get; set; }
         public string[] ByLabels { get; set; }
+
+        public Dictionary<string, string> OptionsDescription => CommandsHelper.GetBasicTags();
 
         private readonly IActionService _actionService;
         private readonly ParameterParser _parameterParser;

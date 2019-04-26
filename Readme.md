@@ -10,7 +10,7 @@ Program to organize in folders and rename file names based in its metadata.
 	* OrganizerImages: Put images in Directory based in differents information.
 	* RenameFiles: Rename files in a Directory based in differents information.
 	* RemoveCache: Remove saved cache (mainly the save calls to OSM).
-  * AddTags: Add to Image Metadata the selected Tags.
+    * AddTags: Add to Image Metadata the selected Tags.
 
 ## Path:
 	* Path where you have your images.
@@ -18,7 +18,7 @@ Program to organize in folders and rename file names based in its metadata.
 ## Options:
   * Different options for each Action.
 	* **RemoveCache**: Doesn't have actions.
-	* **OrganizerImages** and **RenameFiles** (has the same actions). It use for define the path to save or the file name. In case the file doesn't have the data you aks for it it replace for a default value (Location: NoLocation, Date: NoDate)
+	* **OrganizerImages** and **RenameFiles** and **AddTags**(has the same actions). It use for define the path to save or the file name. In case the file doesn't have the data you aks for it it replace for a default value (Location: NoLocation, Date: NoDate)
 		+ City:  City where the photo was taken (information from LAT/LONG in the photo and mapped throw OSM).
 		+ Road:  Road where the photo was taken (information from LAT/LONG in the photo and mapped throw OSM).
 		+ Village: Village where the photo was taken (information from LAT/LONG in the photo and mapped throw OSM).

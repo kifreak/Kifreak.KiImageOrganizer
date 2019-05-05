@@ -40,10 +40,12 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         private async Task<string> GetSubFolderFromAction()
         {
             Coordinates coordinates = GetCoordinates();
-            if (coordinates == null || !coordinates.IsValid()) return _noLocationString;
-
-            OSMData osmData = await _geoService.GetOsmData(coordinates);
-            var result = GetValue(osmData);
+            string result = null;
+            if (coordinates != null && coordinates.IsValid())
+            {
+                OSMData osmData = await _geoService.GetOsmData(coordinates);
+                result = GetValue(osmData);
+            }
             return result ?? await ActionHelpers.ExecuteWithAlternative(_model.Alternative, _noLocationString);
         }
 

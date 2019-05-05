@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kifreak.KiImageOrganizer.Console.Helpers;
 using XperiCode.JpegMetadata;
 
 namespace Kifreak.KiImageOrganizer.Console.Services
@@ -12,11 +13,23 @@ namespace Kifreak.KiImageOrganizer.Console.Services
 
         public void SetFileInformation(string file)
         {
-            _metadataInfo = ImageMetadataReader.ReadMetadata(file).ToList();
+            try
+            {
+                _metadataInfo = ImageMetadataReader.ReadMetadata(file).ToList();
+            }
+            catch (Exception ex)
+            {
+                ConsoleHelper.Error($"Can't read metadata from file {file}. Error: {ex.Message}");
+            }
         }
 
         public string GetKey(string key)
         {
+            if (_metadataInfo == null)
+            {
+                return null;
+
+            }
             Directory sectionValue = _metadataInfo.FirstOrDefault(t => t.Tags.Any(x => x.Name.Contains(key)));
 
             if (sectionValue == null) return string.Empty;

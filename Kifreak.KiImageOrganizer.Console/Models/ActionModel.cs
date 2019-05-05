@@ -1,10 +1,13 @@
-﻿using Kifreak.KiImageOrganizer.Console.Actions;
+﻿using System.IO;
+using System.Net;
+using Kifreak.KiImageOrganizer.Console.Actions;
 using Kifreak.KiImageOrganizer.Console.Services;
 
 namespace Kifreak.KiImageOrganizer.Console.Models
 {
     public class ActionModel
     {
+        public FileInfo File { get; set; }
         public ActionExecutionModel Type { get; set; }
         public SubFolders Alternative { get; set; }
         public SubFolders Folders { get; set; }

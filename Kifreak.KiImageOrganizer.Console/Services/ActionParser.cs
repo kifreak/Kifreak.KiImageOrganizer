@@ -3,6 +3,7 @@ using Kifreak.KiImageOrganizer.Console.Configuration;
 using Kifreak.KiImageOrganizer.Console.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Kifreak.KiImageOrganizer.Console.Services
@@ -35,6 +36,7 @@ namespace Kifreak.KiImageOrganizer.Console.Services
             var metadataService = GetMetadataService(filePath);
             ActionModel model = new ActionModel
             {
+                File = new FileInfo(filePath),
                 MetadataService = metadataService,
                 Folders = subFolders,
                 Type = _actionType[keysAlternatives.Key],

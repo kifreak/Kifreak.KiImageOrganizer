@@ -73,6 +73,7 @@
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\RemoveCacheCommand.cs" />
     <Compile Include="Configuration\Injection.cs" />
+    <Compile Include="Configuration\UserConfig.cs" />
     <Compile Include="Formatters\JustValueFormatters.cs" />
     <Compile Include="Formatters\SeparatedByCommasFormatters.cs" />
     <Compile Include="Helpers\ActionHelpers.cs" />
@@ -108,8 +109,10 @@
     <Compile Include="Services\IGeoService.cs" />
     <Compile Include="Services\IMetadataService.cs" />
     <Compile Include="Configuration\InjectionService.cs" />
+    <Compile Include="Services\IRegexService.cs" />
     <Compile Include="Services\MetadataService.cs" />
     <Compile Include="Configuration\ModuleInjection.cs" />
+    <Compile Include="Services\RegexService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

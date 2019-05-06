@@ -163,7 +163,7 @@ namespace Kifreak.KiImageOrganizer.Tests.Actions
 
         private async Task TestByDate(ActionModel model, string expectedResponse)
         {
-            ByDate city = new ByDate(model);
+            ByDate city = new ByDate(model, new RegexService());
             string result = await city.GetSubFolder(new FolderFormatters());
             //Asserts
 

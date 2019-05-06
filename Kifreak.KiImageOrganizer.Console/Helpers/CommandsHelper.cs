@@ -17,12 +17,6 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
             }
         }
 
-        public static string RemoveAllNotAllowedCharacters(string path)
-        {
-            var regex = new Regex("<|“|\"|:|>|\\||\\\\|/|\\?|\\*");
-            return regex.Replace(path, "");
-        }
-
         public static Dictionary<string, string> GetBasicTags()
         {
             return new Dictionary<string, string>

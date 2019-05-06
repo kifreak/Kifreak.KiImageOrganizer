@@ -1,0 +1,14 @@
+{
+  "FilePath": "C:\\Users\\joaquinvizcaino\\Downloads\\Test",
+  "Action": "OrganizerImages",
+  "Steps": {
+    "Name": "City",
+    "Alternative": {
+      "Name": "Country",
+      "Alternative": {
+        "Name": "Text",
+        "Options": ""
+      }
+    }
+  }
+}

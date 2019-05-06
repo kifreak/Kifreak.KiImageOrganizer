@@ -19,6 +19,7 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
             builder.RegisterType<ActionService>().As<IActionService>();
             builder.RegisterType<GeoService>().As<IGeoService>();
             builder.RegisterType<MetadataService>().As<IMetadataService>();
+            builder.RegisterType<RegexService>().As<IRegexService>();
             builder.RegisterType<City>();
             builder.RegisterType<ByDate>();
             builder.RegisterType<Noop>();

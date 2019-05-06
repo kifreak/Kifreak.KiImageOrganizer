@@ -9,6 +9,13 @@ namespace Kifreak.KiImageOrganizer.Console.Configuration
 {
     public static class Config
     {
+        private static UserConfig _userConfig;
+
+        public static UserConfig UserConfig {
+            get => _userConfig ?? (_userConfig = new UserConfig());
+            set => _userConfig = value;
+        }
+
         public static DateTime LastCallToOSM { get; set; }
         public static char AlternativeCharacter => '\\';
         public static IContainer Container { get; set; }

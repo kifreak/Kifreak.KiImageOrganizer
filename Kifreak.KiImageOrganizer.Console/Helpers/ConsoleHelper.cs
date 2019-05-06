@@ -6,9 +6,7 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
     {
         public static void Error(string message)
         {
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.WriteLine($"Error: {message}");
-            System.Console.ForegroundColor = ConsoleColor.White;
+            WriteLineInColor($"Error: {message}", ConsoleColor.Red);
         }
 
         public static void Info(string message)
@@ -24,30 +22,22 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
 
         public static void WriteLineDarkYellow(string message)
         {
-            System.Console.ForegroundColor = ConsoleColor.DarkYellow;
-            System.Console.WriteLine(message);
-            System.Console.ForegroundColor = ConsoleColor.White;
+            WriteLineInColor(message, ConsoleColor.DarkYellow);
         }
 
         public static void WriteDarkYellow(string message)
         {
-            System.Console.ForegroundColor = ConsoleColor.DarkYellow;
-            System.Console.Write(message);
-            System.Console.ForegroundColor = ConsoleColor.White;
+            WriteInColor(message, ConsoleColor.DarkYellow);
         }
 
         public static void WriteLineDarkGreen(string message)
         {
-            System.Console.ForegroundColor = ConsoleColor.DarkGreen;
-            System.Console.WriteLine(message);
-            System.Console.ForegroundColor = ConsoleColor.White;
+            WriteLineInColor(message, ConsoleColor.DarkGreen);
         }
 
         public static void WriteLineDarkBlue(string message)
         {
-            System.Console.ForegroundColor = ConsoleColor.DarkBlue;
-            System.Console.WriteLine(message);
-            System.Console.ForegroundColor = ConsoleColor.White;
+            WriteLineInColor(message, ConsoleColor.DarkBlue);
         }
 
         public static void WriteLineSeparator()
@@ -61,6 +51,20 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
             {
                 System.Console.WriteLine();
             }
+        }
+
+        public static void WriteLineInColor(string message, ConsoleColor color)
+        {
+            System.Console.ForegroundColor = color;
+            System.Console.WriteLine(message);
+            System.Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void WriteInColor(string message, ConsoleColor color)
+        {
+            System.Console.ForegroundColor = color;
+            System.Console.Write(message);
+            System.Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }

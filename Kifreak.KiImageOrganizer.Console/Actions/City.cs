@@ -16,7 +16,6 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
     {
         private readonly ActionModel _model;
         private readonly IGeoService _geoService;
-        private const string _noLocationString = "NoLocation";
 
         // ReSharper disable once UnusedMember.Global
         public City(ActionModel model) : base(model.Folders)
@@ -46,7 +45,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
                 OSMData osmData = await _geoService.GetOsmData(coordinates);
                 result = GetValue(osmData);
             }
-            return result ?? await ActionHelpers.ExecuteWithAlternative(_model.Alternative, _noLocationString);
+            return result ?? await ActionHelpers.ExecuteWithAlternative(_model.Alternative, Config.UserConfig.ByCityDefaultText);
         }
 
         private string GetValue(OSMData osmData)
@@ -66,8 +65,8 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         private Coordinates GetCoordinates()
         {
             return new Coordinates(
-                GetCoordinateInfo("GPS Latitude"),
-                GetCoordinateInfo("GPS Longitude")
+                GetCoordinateInfo(Config.UserConfig.MetadataGpsLatitude),
+                GetCoordinateInfo(Config.UserConfig.MetadataGpsLongitude)
             );
         }
 
@@ -79,18 +78,18 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
                 return string.Empty;
             }
 
-            int degreeSymbol = coordinate.IndexOf("° ", StringComparison.Ordinal);
-            int minutesSymbol = coordinate.IndexOf("' ", StringComparison.Ordinal);
-            int secondsSymbol = coordinate.IndexOf("\"", StringComparison.Ordinal);
+            int degreeSymbol = coordinate.IndexOf(Config.UserConfig.DegreeSymbol, StringComparison.Ordinal);
+            int minutesSymbol = coordinate.IndexOf(Config.UserConfig.MinutesSymbol, StringComparison.Ordinal);
+            int secondsSymbol = coordinate.IndexOf(Config.UserConfig.SecondsSymbol, StringComparison.Ordinal);
             if (degreeSymbol < 0 || minutesSymbol < 0 || secondsSymbol < 0)
             {
                 return string.Empty;
             }
 
             double.TryParse(coordinate.Substring(0, degreeSymbol), out double degrees);
-            double.TryParse(coordinate.Substring(degreeSymbol + 2, minutesSymbol - (degreeSymbol + 2)),
+            double.TryParse(coordinate.Substring(degreeSymbol + Config.UserConfig.DegreeSymbol.Length, minutesSymbol - (degreeSymbol + Config.UserConfig.DegreeSymbol.Length)),
                 out double minutes);
-            double.TryParse(coordinate.Substring(minutesSymbol + 2, secondsSymbol - (minutesSymbol + 2)),
+            double.TryParse(coordinate.Substring(minutesSymbol + Config.UserConfig.MinutesSymbol.Length, secondsSymbol - (minutesSymbol + Config.UserConfig.MinutesSymbol.Length)),
                 out double seconds);
             return _geoService.ConvertCoordinates(degrees, minutes, seconds).ToString(CultureInfo.InvariantCulture);
         }

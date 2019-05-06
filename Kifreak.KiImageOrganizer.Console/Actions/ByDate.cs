@@ -29,13 +29,13 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
 
         private async Task<string> GetSubFolderFromAction()
         {
-            string createdTime = _model.MetadataService.GetKey("Date/Time Original");
+            string createdTime = _model.MetadataService.GetKey(Config.UserConfig.MetadataDateTimeOriginal);
             if (string.IsNullOrEmpty(createdTime))
             {
                 createdTime = _regexService.GetDateFromFileName(_model.File.Name);
                 if (string.IsNullOrEmpty(createdTime))
                 {
-                    return await ActionHelpers.ExecuteWithAlternative(_model.Alternative, "NoDate");
+                    return await ActionHelpers.ExecuteWithAlternative(_model.Alternative, Config.UserConfig.ByDateDefaultText);
                 }
             }
             DateTime.TryParseExact(createdTime, Config.UserConfig.DateTimeToOrganizeImagesFormat, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime dateTime);

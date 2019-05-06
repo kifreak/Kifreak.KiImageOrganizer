@@ -92,7 +92,7 @@ namespace Kifreak.KiImageOrganizer.Console.Commands
         private async Task<string> GetFileFolder(string file)
         {
             string newFolder = await _actionService.GetSubFolder(file, ByLabels,
-                Config.Get<MainFolder>("path", $@"{Directory}\Organized"),
+                Config.Get<MainFolder>("path", $@"{Directory}\{Config.UserConfig.DefaultOrganizedPath}"),
                 Config.Get<FolderFormatters>());
             ConsoleHelper.Info($"{file} copy to {newFolder}");
             return newFolder;

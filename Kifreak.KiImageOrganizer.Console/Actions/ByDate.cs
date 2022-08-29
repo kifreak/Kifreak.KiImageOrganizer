@@ -21,7 +21,11 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
             _model = model;
             _regexService = Config.Get<IRegexService>();
         }
-
+        public ByDate(ActionModel model, IRegexService regexService) : base(model.Folders)
+        {
+            _model = model;
+            _regexService = regexService;
+        }
         public override async Task<string> GetSubFolder(IFormatter formatter)
         {
             return formatter.Format(await _subFolders.GetSubFolder(formatter), await GetSubFolderFromAction());

@@ -16,8 +16,7 @@ namespace Kifreak.KiImageOrganizer.Console.Helpers
 
         public static void EndProgram()
         {
-            WriteLineDarkGreen("Program finish. Press any key to close this window.");
-            System.Console.ReadKey();
+            WriteLineDarkGreen("Program finish.");
         }
 
         public static void WriteLineDarkYellow(string message)

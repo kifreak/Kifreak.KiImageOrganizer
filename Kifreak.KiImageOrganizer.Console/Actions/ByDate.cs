@@ -16,7 +16,7 @@ namespace Kifreak.KiImageOrganizer.Console.Actions
         private readonly ActionModel _model;
         private readonly IRegexService _regexService;
 
-        public ByDate(ActionModel model, IRegexService regexService) : base(model.Folders)
+        public ByDate(ActionModel model) : base(model.Folders)
         {
             _model = model;
             _regexService = Config.Get<IRegexService>();

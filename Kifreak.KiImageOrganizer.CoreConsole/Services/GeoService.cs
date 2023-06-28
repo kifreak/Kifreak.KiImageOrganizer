@@ -101,7 +101,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Services
 
         private OSMData ReadFromFile(Coordinates coordinates)
         {
-            var filePath = $@"{_path}\{coordinates}.log";
+            var filePath = $@"{_path}{Config.getDefaultPathSlash()}{coordinates}.log";
             if (!File.Exists(filePath))
             {
                 return null;
@@ -114,7 +114,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Services
 
         private void SaveToFile(Coordinates coordinates, OSMData osmData)
         {
-            var filePath = $@"{_path}\{coordinates}.log";
+            var filePath = $@"{_path}{Config.getDefaultPathSlash()}{coordinates}.log";
             if (File.Exists(filePath))
             {
                 return;

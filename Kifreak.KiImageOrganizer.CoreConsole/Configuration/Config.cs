@@ -17,7 +17,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Configuration
         }
 
         public static DateTime LastCallToOSM { get; set; }
-        public static char AlternativeCharacter => '\\';
+        public static char AlternativeCharacter => '|';
         public static IContainer Container { get; set; }
 
         public static IEnumerable<ICommandFactory> GetAvailableCommands()
@@ -57,6 +57,11 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Configuration
         public static T Get<T>()
         {
             return Container.Resolve<T>();
+        }
+
+        public static String getDefaultPathSlash()
+        {
+            return "/";
         }
     }
 }

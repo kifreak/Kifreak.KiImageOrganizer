@@ -98,7 +98,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Commands
             try
             {
                 string newFolder = await _actionService.GetSubFolder(file, ByLabels,
-                    Config.Get<MainFolder>("path", $@"{Directory}\{Config.UserConfig.DefaultOrganizedPath}"),
+                    Config.Get<MainFolder>("path", $@"{Directory}{Config.getDefaultPathSlash()}{Config.UserConfig.DefaultOrganizedPath}"),
                     Config.Get<FolderFormatters>());
                 ConsoleHelper.Info($"{file} copy to {newFolder}");
                 return newFolder;
@@ -116,7 +116,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Commands
 
         private void MoveFileToNewPath(string fileName, string newFolder)
         {
-            string newFile = $@"{newFolder}\{Path.GetFileName(fileName)}";
+            string newFile = $@"{newFolder}{Config.getDefaultPathSlash()}{Path.GetFileName(fileName)}";
             if (!File.Exists(newFile))
             {
                 File.Copy(fileName, newFile);

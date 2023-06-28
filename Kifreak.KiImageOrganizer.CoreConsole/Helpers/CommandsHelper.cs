@@ -33,7 +33,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Helpers
                 {"Time", "Time when the photo was taken (format: HH_mm_ss)"},
                 {"YearMonth", "Year and Month when the photo was taken (format: yyyy-MM)"},
                 {"Noop", "Do nothing."},
-                {"Alternatives", "This is not a keyword. You can use an alternative in case your option return an empty result: For example: Village\\City or City\\Noop" }
+                {"Alternatives", "This is not a keyword. You can use an alternative in case your option return an empty result: For example: Village|City or City|Noop" }
             };
         }
     }

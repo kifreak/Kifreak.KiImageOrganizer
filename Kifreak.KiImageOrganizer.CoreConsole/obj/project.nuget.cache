@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "dgSpecHash": "drQmtUadFczg10+XNvlam4si0Mnerh7qZmGddrnyXn7rXihPdjmWWfT0fASrSrj5xi3tumYiIs19CeoDxZ838g==",
+  "success": true,
+  "projectFilePath": "D:\\MyThings\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\Kifreak.KiImageOrganizer.CoreConsole.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kifreak\\.nuget\\packages\\autofac\\7.0.1\\autofac.7.0.1.nupkg.sha512",
+    "C:\\Users\\kifreak\\.nuget\\packages\\metadataextractor\\2.8.0\\metadataextractor.2.8.0.nupkg.sha512",
+    "C:\\Users\\kifreak\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
+    "C:\\Users\\kifreak\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\kifreak\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512",
+    "C:\\Users\\kifreak\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
+    "C:\\Users\\kifreak\\.nuget\\packages\\system.text.encoding.codepages\\4.5.1\\system.text.encoding.codepages.4.5.1.nupkg.sha512",
+    "C:\\Users\\kifreak\\.nuget\\packages\\xmpcore\\6.1.10.1\\xmpcore.6.1.10.1.nupkg.sha512",
+    "C:\\Users\\kifreak\\.nuget\\packages\\xpericode.jpegmetadata\\0.9.0\\xpericode.jpegmetadata.0.9.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1803",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://pi3.k:8091/v3/index.json'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'XperiCode.JpegMetadata 0.9.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "XperiCode.JpegMetadata",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
+}

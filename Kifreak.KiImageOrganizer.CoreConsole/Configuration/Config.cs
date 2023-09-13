@@ -24,7 +24,8 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Configuration
         {
             return new ICommandFactory[]
             {
-                Get<OrganizerImagesCommand>(), Get<RenameFilesCommand>(), Get<RemoveCacheCommand>(), Get<AddTagsCommand>(), Get<HelpCommand>()
+                Get<OrganizerImagesCommand>(), Get<RenameFilesCommand>(), Get<RemoveCacheCommand>(),
+                Get<AddTagsCommand>(), Get<ImageExistsCommand>(), Get<HelpCommand>()
             };
         }
 
@@ -59,9 +60,6 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Configuration
             return Container.Resolve<T>();
         }
 
-        public static String getDefaultPathSlash()
-        {
-            return "/";
-        }
+    
     }
 }

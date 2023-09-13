@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Kifreak.KiImageOrganizer.CoreConsole": {
+      "commandName": "Project",
+      "commandLineArgs": "Exists \"D:\\MyThings\\Resources\\Test\\origin\" \"D:\\MyThings\\Resources\\Test\\destination\""
+    }
+  }
+}

@@ -84,7 +84,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Commands
         private void RenameFile(string file, string newFile)
         {
             var fileInfo = new FileInfo(file);
-            var newFileCompletePath = $@"{fileInfo.DirectoryName}{Config.getDefaultPathSlash()}{newFile}{fileInfo.Extension}";
+            var newFileCompletePath =Path.Combine(fileInfo.DirectoryName!,newFile,fileInfo.Extension);
             if (File.Exists(newFileCompletePath))
             {
                 ConsoleHelper.Info($"{newFile} already exist.");

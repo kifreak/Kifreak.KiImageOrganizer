@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Intrinsics.X86;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -16,6 +17,33 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Helpers
                 tsk.Wait();
             }
         }
+        public static List<string> GetFilesInaFolder(string carpeta)
+        {
+            List<string> archivos = new List<string>();
+
+            try
+            {
+                // Obtiene todos los archivos en la carpeta actual
+                archivos.AddRange(Directory.GetFiles(carpeta));
+
+                // Obtiene todas las subcarpetas en la carpeta actual
+                string[] subcarpetas = Directory.GetDirectories(carpeta);
+
+                // Recorre las subcarpetas y obtiene los archivos de cada una de ellas (recursión)
+                foreach (string subcarpeta in subcarpetas)
+                {
+                    archivos.AddRange(GetFilesInaFolder(subcarpeta));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al acceder a la carpeta {carpeta}: {ex.Message}");
+            }
+
+            return archivos;
+        }
+    
+
 
         public static Dictionary<string, string> GetBasicTags()
         {

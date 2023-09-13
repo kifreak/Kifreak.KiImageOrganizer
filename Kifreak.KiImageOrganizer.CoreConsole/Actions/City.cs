@@ -48,7 +48,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Actions
             return result ?? await ActionHelpers.ExecuteWithAlternative(_model.Alternative, Config.UserConfig.ByCityDefaultText);
         }
 
-        private string GetValue(OSMData osmData)
+        private string? GetValue(OSMData osmData)
         {
             PropertyInfo property = GetProperty(osmData);
             if (property == null) return null;

@@ -348,11 +348,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\MyThings\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\Kifreak.KiImageOrganizer.CoreConsole.csproj",
+      "projectUniqueName": "D:\\MyThings\\VisualStudio\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\Kifreak.KiImageOrganizer.CoreConsole.csproj",
       "projectName": "Kifreak.KiImageOrganizer.CoreConsole",
-      "projectPath": "D:\\MyThings\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\Kifreak.KiImageOrganizer.CoreConsole.csproj",
+      "projectPath": "D:\\MyThings\\VisualStudio\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\Kifreak.KiImageOrganizer.CoreConsole.csproj",
       "packagesPath": "C:\\Users\\kifreak\\.nuget\\packages\\",
-      "outputPath": "D:\\MyThings\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\obj\\",
+      "outputPath": "D:\\MyThings\\VisualStudio\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -425,7 +425,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   },

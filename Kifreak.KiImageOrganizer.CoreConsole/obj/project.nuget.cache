@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "drQmtUadFczg10+XNvlam4si0Mnerh7qZmGddrnyXn7rXihPdjmWWfT0fASrSrj5xi3tumYiIs19CeoDxZ838g==",
+  "dgSpecHash": "1zWQRWKkqBr77IfRVUcMhEFirMnIGyBtAgJRYGMTp8EymuonTNL99LsHDYOwdyi2aW1UHaJZUOr2Dg8nWuPpsg==",
   "success": true,
-  "projectFilePath": "D:\\MyThings\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\Kifreak.KiImageOrganizer.CoreConsole.csproj",
+  "projectFilePath": "D:\\MyThings\\VisualStudio\\Kifreak.KiImageOrganizer\\Kifreak.KiImageOrganizer.CoreConsole\\Kifreak.KiImageOrganizer.CoreConsole.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kifreak\\.nuget\\packages\\autofac\\7.0.1\\autofac.7.0.1.nupkg.sha512",
     "C:\\Users\\kifreak\\.nuget\\packages\\metadataextractor\\2.8.0\\metadataextractor.2.8.0.nupkg.sha512",

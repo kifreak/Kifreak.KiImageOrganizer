@@ -28,12 +28,11 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Helpers
 
                 // Obtiene todas las subcarpetas en la carpeta actual
                 string[] subcarpetas = Directory.GetDirectories(carpeta);
-
-                // Recorre las subcarpetas y obtiene los archivos de cada una de ellas (recursión)
-                foreach (string subcarpeta in subcarpetas)
+                Parallel.ForEach(subcarpetas, subcarpeta =>
                 {
                     archivos.AddRange(GetFilesInaFolder(subcarpeta));
-                }
+                });
+            
             }
             catch (Exception ex)
             {

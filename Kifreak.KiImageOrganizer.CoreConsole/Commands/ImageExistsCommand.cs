@@ -2,6 +2,7 @@
 using Kifreak.KiImageOrganizer.CoreConsole.Commands;
 using Kifreak.KiImageOrganizer.CoreConsole.Configuration;
 using Kifreak.KiImageOrganizer.CoreConsole.Helpers;
+using System.IO;
 
 namespace Kifreak.KiImageOrganizer.CoreConsole.Commands
 {
@@ -11,7 +12,7 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Commands
         {
             _parameterParser = parameterParser;
         }
-
+        private Random _rmd = new Random();
         private readonly ParameterParser _parameterParser;
         public string Origin { get; set; }
             
@@ -36,8 +37,10 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Commands
             ConsoleHelper.Info($"Files in origin: {originFilesInfo.Count} ");
             ConsoleHelper.Info("Loading files in destination");
             List<string> destinationFiles = CommandsHelper.GetFilesInaFolder(Destination);
-            List<FileInfo> destinationFilesInfo = destinationFiles.Select(t => new FileInfo(t)).ToList();
-            ConsoleHelper.Info($"Files in destination: {destinationFilesInfo.Count} ");
+            List<string> fileData = destinationFiles.Select(GetFileInfo).Where(t => t != null).ToList();
+                
+       
+            ConsoleHelper.Info($"Files in destination: {destinationFiles.Count:N0} ");
             string baseDirectory = Path.Combine(Origin, "organized");
             string okFiles = Path.Combine(baseDirectory, "exist");
             string koFiles = Path.Combine(baseDirectory, "noExist");
@@ -45,24 +48,54 @@ namespace Kifreak.KiImageOrganizer.CoreConsole.Commands
             Directory.CreateDirectory(baseDirectory);
             Directory.CreateDirectory(okFiles);
             Directory.CreateDirectory(koFiles);
-
-
-            foreach (FileInfo file in originFilesInfo)
+            Parallel.ForEach(originFilesInfo, file =>
             {
-                bool exists = destinationFilesInfo.Any(d => file.Length == d.Length && d.Name == file.Name);
+                bool exists = fileData.Contains($"{file.Length}:{file.Name}");
+                string destiny = "";
                 if (exists)
                 {
-                    File.Copy(file.FullName, Path.Combine(okFiles,file.Name));
-                } else
-                {
-                    File.Copy(file.FullName, Path.Combine(koFiles, file.Name));
+                    destiny = Path.Combine(okFiles, file.Name);
                 }
-            }
+                else
+                {
+                    destiny = Path.Combine(koFiles, file.Name);
+                }
+                if (File.Exists(destiny))
+                {
+                    var newFile = new FileInfo(destiny);
+                    var extension = newFile.Extension;
+                    destiny = destiny.Replace(extension, $"_{GetRandom()}{extension}");
+
+                }
+                File.Copy(file.FullName, destiny);
+            });
+           
             return Task.CompletedTask;
-            
+
 
         }
 
+        string GetRandom()
+        {
+            return _rmd.Next(0, int.MaxValue).ToString();
+        }
+        string GetFileInfo(string file)
+        {
+            if (file == null)
+            {
+                return null;
+            }
+            try
+            {
+                FileInfo fileInfo = new FileInfo(file);
+                return $"{fileInfo.Length}:{fileInfo.Name}";
+            }catch(Exception ex)
+            {
+                ConsoleHelper.Error($"Error getting file: {file}");
+                return null;
+            }
+
+        }
         public bool Validate()
         {
             return Directory.Exists(Origin) && Directory.Exists(Destination);
